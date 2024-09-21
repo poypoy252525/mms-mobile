@@ -14,6 +14,7 @@ import Swiper from "react-native-swiper";
 import Illustration1 from "@/assets/images/map-illustration.png";
 import Illustration2 from "@/assets/images/navigate-illustration.png";
 import Illustration3 from "@/assets/images/connection-illustration.png";
+import CustomButton from "../_components/CustomButton";
 
 const swiperPage = [
   {
@@ -67,21 +68,15 @@ const index = () => {
             ))}
           </Swiper>
         </View>
-        <Pressable
-          style={({ pressed }) => [
-            styles.nextButton,
-            { backgroundColor: pressed ? "#006cd0" : "#0286FF" },
-          ]}
+        <CustomButton
           onPress={() =>
             isLastSlide
               ? router.push("/(auth)/sign-up")
               : swiperRef.current?.scrollBy(1)
           }
-        >
-          <Text style={{ color: "white" }}>
-            {isLastSlide ? "Get started" : "Next"}
-          </Text>
-        </Pressable>
+          title={isLastSlide ? "Get started" : "Next"}
+          style={{ width: "90%" }}
+        />
       </SafeAreaView>
     </>
   );
