@@ -1,15 +1,16 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, ViewStyle } from "react-native";
 import React, { ReactNode, useState } from "react";
 
 interface Props {
   icon: ReactNode;
   placeholder: string;
+  style?: ViewStyle;
 }
 
-const CustomInputWithIcon = ({ icon, placeholder }: Props) => {
+const CustomInputWithIcon = ({ icon, placeholder, style }: Props) => {
   const [isFocus, setFocus] = useState<boolean>(false);
   return (
-    <View style={styles.textInputContainer}>
+    <View style={[styles.textInputContainer, style]}>
       {icon}
       <TextInput
         placeholder={placeholder}

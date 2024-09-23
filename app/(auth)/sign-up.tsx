@@ -2,7 +2,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import { router } from "expo-router";
+import React from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,8 +12,8 @@ import {
   Text,
   View,
 } from "react-native";
-import CustomInputWithIcon from "../_components/CustomInputWithIcon";
 import CustomButton from "../_components/CustomButton";
+import CustomInputWithIcon from "../_components/CustomInputWithIcon";
 
 const inputForm = [
   {
@@ -65,7 +66,7 @@ const SignUp = () => {
 
           <CustomButton
             title="Sign Up"
-            onPress={() => console.log("first")}
+            onPress={() => router.push("/(root)")}
             style={styles.signUpButton}
           />
         </View>

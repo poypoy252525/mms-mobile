@@ -5,8 +5,9 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="dark" />
-      <Stack>
+      <Stack screenOptions={{ animation: "ios" }}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(root)" options={{ headerShown: false }} />
       </Stack>
     </>
   );
