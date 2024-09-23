@@ -43,6 +43,12 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow MMS to use your location."
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
+        }
       ]
     ],
     "experiments": {
@@ -51,7 +57,8 @@
     "extra": {
       "eas": {
         "projectId": "3dc0a72e-68e6-4045-917e-27defec9112a"
-      }
+      },
+      "googleClientId": "574017815971-i0k2fgfcp2q7v6cb9nivbdrh4sj845fq.apps.googleusercontent.com"
     }
   }
 }

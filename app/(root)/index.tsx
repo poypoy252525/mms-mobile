@@ -180,9 +180,14 @@ const Home = () => {
             </View>
             <View style={{ marginBottom: 16 }}>
               <Text style={[styles.sectionLabel, { paddingHorizontal: 16 }]}>
-                Recent record
+                Recent visits
               </Text>
-              <ScrollView style={{ flex: 1 }} horizontal>
+              <ScrollView
+                style={{ flex: 1 }}
+                horizontal
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+              >
                 {isLoading || refreshing ? (
                   <View
                     style={{

@@ -12,7 +12,7 @@ const Profile = () => {
         title="Click me"
         onPress={async () => {
           const { data: id } = await axios.post(
-            "http://localhost:3000/api/visits/asdfjk",
+            "http://192.168.100.7:3000/api/visits/asdfjk",
             "Hello"
           );
           setId(id);

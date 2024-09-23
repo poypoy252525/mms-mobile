@@ -6,6 +6,7 @@ const Layout = () => {
     <Stack screenOptions={{ animation: "ios" }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+      <Stack.Screen name="sign-in" options={{ headerShown: false }} />
     </Stack>
   );
 };

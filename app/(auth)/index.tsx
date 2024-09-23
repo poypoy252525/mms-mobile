@@ -39,7 +39,7 @@ const index = () => {
       <StatusBar style="dark" />
       <SafeAreaView style={styles.container}>
         <View style={styles.skipContainer}>
-          <TouchableOpacity onPress={() => router.push("/(auth)/sign-up")}>
+          <TouchableOpacity onPress={() => router.push("/(auth)/sign-in")}>
             <Text style={styles.skip}>Skip</Text>
           </TouchableOpacity>
         </View>
@@ -65,7 +65,7 @@ const index = () => {
         <CustomButton
           onPress={() =>
             isLastSlide
-              ? router.push("/(auth)/sign-up")
+              ? router.push("/(auth)/sign-in")
               : swiperRef.current?.scrollBy(1)
           }
           title={isLastSlide ? "Get started" : "Next"}
