@@ -2,13 +2,14 @@ import Illustration3 from "@/assets/images/connection-illustration.png";
 import Illustration1 from "@/assets/images/map-illustration.png";
 import Illustration2 from "@/assets/images/navigate-illustration.png";
 import { Image } from "expo-image";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 import CustomButton from "../_components/CustomButton";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const swiperPage = [
   {
@@ -34,6 +35,9 @@ const index = () => {
   const isLastSlide = swiperPage.length - 1 === activeIndex;
 
   const swiperRef = useRef<Swiper>(null);
+
+  if (GoogleSignin.getCurrentUser()) return <Redirect href="/(root)" />;
+
   return (
     <>
       <StatusBar style="dark" />

@@ -1,24 +1,20 @@
-import { View, Text, Button } from "react-native";
-import React, { useState } from "react";
+import { View, Text } from "react-native";
+import React from "react";
+import CustomButton from "../_components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { router } from "expo-router";
 
 const Profile = () => {
-  const [id, setId] = useState<string>();
   return (
     <SafeAreaView>
-      <Text>Profile screen</Text>
-      <Button
-        title="Click me"
+      <CustomButton
+        title="Logout"
         onPress={async () => {
-          const { data: id } = await axios.post(
-            "http://192.168.100.7:3000/api/visits/asdfjk",
-            "Hello"
-          );
-          setId(id);
+          await GoogleSignin.signOut();
+          router.push("/(auth)/sign-in");
         }}
       />
-      <Text>{id}</Text>
     </SafeAreaView>
   );
 };

@@ -55,10 +55,10 @@
       "typedRoutes": true
     },
     "extra": {
+      "googleClientId": "574017815971-i0k2fgfcp2q7v6cb9nivbdrh4sj845fq.apps.googleusercontent.com",
       "eas": {
-        "projectId": "3dc0a72e-68e6-4045-917e-27defec9112a"
-      },
-      "googleClientId": "574017815971-i0k2fgfcp2q7v6cb9nivbdrh4sj845fq.apps.googleusercontent.com"
+        "projectId": "15d56399-3d7b-44d4-908a-127a9dd2001a"
+      }
     }
   }
 }

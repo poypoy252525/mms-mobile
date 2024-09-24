@@ -21,9 +21,12 @@ import MapView, { Marker, Polyline } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomInputWithIcon from "../_components/CustomInputWithIcon";
 import DeathCard from "../_components/DeathCard";
+import { useUserStore } from "../stores/store";
+import { GoogleSignin, User } from "@react-native-google-signin/google-signin";
+import { Visit } from "@/types/visit";
 
 const Home = () => {
-  const [deaths, setDeaths] = useState<Death[]>();
+  const [visits, setVisits] = useState<Visit[]>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [route, setRoute] = useState([]);
   const [currentLocation, setCurrentLocation] = useState<{
@@ -31,20 +34,19 @@ const Home = () => {
     longitude: number;
   }>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const { user } = GoogleSignin.getCurrentUser()!;
 
-  const fetchDeaths = async () => {
+  const fetchRecentVisits = async () => {
     try {
-      const { data: deaths } = await axios.get<Death[]>(
-        `${baseURL}/api/deaths`
+      const { data: visits } = await axios.get<Visit[]>(
+        `${baseURL}/api/visits/${user.id}`
       );
-      setDeaths(deaths);
-    } catch (error) {
-      console.log(error);
-    }
+      setVisits(visits);
+    } catch (error) {}
   };
 
   useEffect(() => {
-    fetchDeaths();
+    fetchRecentVisits();
   }, []);
 
   useEffect(() => {
@@ -72,7 +74,7 @@ const Home = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchDeaths();
+    await fetchRecentVisits();
     setRefreshing(false);
   };
 
@@ -115,7 +117,7 @@ const Home = () => {
       <View style={styles.container}>
         <View style={{ paddingHorizontal: 16 }}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Welcome Carl</Text>
+            <Text style={styles.title}>Welcome {user.givenName}</Text>
           </View>
           <View style={{ marginBottom: 20 }}>
             <CustomInputWithIcon
@@ -209,9 +211,13 @@ const Home = () => {
                       paddingHorizontal: 16,
                     }}
                   >
-                    {deaths?.map((death) => (
-                      <DeathCard death={death} key={death.id} />
-                    ))}
+                    {visits?.length ? (
+                      visits?.map(({ death }) => (
+                        <DeathCard death={death} key={death.id} />
+                      ))
+                    ) : (
+                      <Text>No visits.</Text>
+                    )}
                   </View>
                 )}
               </ScrollView>
