@@ -17,13 +17,14 @@ import {
   Text,
   View,
 } from "react-native";
-import MapView, { Marker, Polyline } from "react-native-maps";
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomInputWithIcon from "../_components/CustomInputWithIcon";
 import DeathCard from "../_components/DeathCard";
 import { useUserStore } from "../stores/store";
 import { GoogleSignin, User } from "@react-native-google-signin/google-signin";
 import { Visit } from "@/types/visit";
+import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
   const [visits, setVisits] = useState<Visit[]>();
@@ -113,20 +114,21 @@ const Home = () => {
   }, [currentLocation]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
+      <StatusBar style="dark" />
       <View style={styles.container}>
-        <View style={{ paddingHorizontal: 16 }}>
+        {/* <View
+          style={{
+            paddingHorizontal: 16,
+            backgroundColor: "white",
+            borderBottomWidth: 1,
+            borderColor: "#e9e9e9",
+          }}
+        >
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Welcome {user.givenName}</Text>
+            <Text style={styles.title}>Gravestone GPS</Text>
           </View>
-          <View style={{ marginBottom: 20 }}>
-            <CustomInputWithIcon
-              placeholder="Where do you want to go?"
-              icon={<Ionicons name="search" size={24} color="gray" />}
-              style={{ backgroundColor: "white" }}
-            />
-          </View>
-        </View>
+        </View> */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -135,13 +137,13 @@ const Home = () => {
           }
         >
           <View style={{ display: "flex", gap: 24 }}>
-            <View style={{ paddingHorizontal: 16 }}>
+            <View style={{ paddingHorizontal: 16, marginTop: 12 }}>
               <Text style={styles.sectionLabel}>Your current location</Text>
               <View style={styles.mapContainer}>
                 {!isLoading && currentLocation ? (
                   <MapView
                     style={styles.map}
-                    provider="google"
+                    provider={PROVIDER_GOOGLE}
                     showsUserLocation
                     region={{
                       latitude: currentLocation.latitude,
@@ -225,7 +227,7 @@ const Home = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
