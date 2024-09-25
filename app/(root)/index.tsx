@@ -1,13 +1,13 @@
 import { baseURL } from "@/constants/BaseURL";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Skeleton, SkeletonContainer } from "@nlazzos/react-native-skeleton";
-import { Death } from "@prisma/client";
-import axios from "axios";
+import { Visit } from "@/types/visit";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import axios, { AxiosError } from "axios";
 import {
   getCurrentPositionAsync,
   requestForegroundPermissionsAsync,
 } from "expo-location";
-import React, { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -17,14 +17,13 @@ import {
   Text,
   View,
 } from "react-native";
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
-import { SafeAreaView } from "react-native-safe-area-context";
-import CustomInputWithIcon from "../_components/CustomInputWithIcon";
+import MapView, {
+  Marker,
+  Polyline,
+  PROVIDER_GOOGLE,
+  Camera,
+} from "react-native-maps";
 import DeathCard from "../_components/DeathCard";
-import { useUserStore } from "../stores/store";
-import { GoogleSignin, User } from "@react-native-google-signin/google-signin";
-import { Visit } from "@/types/visit";
-import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
   const [visits, setVisits] = useState<Visit[]>();
@@ -36,7 +35,7 @@ const Home = () => {
   }>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const { user } = GoogleSignin.getCurrentUser()!;
-
+  const mapRef = useRef<MapView>(null);
   const fetchRecentVisits = async () => {
     try {
       const { data: visits } = await axios.get<Visit[]>(
@@ -87,31 +86,49 @@ const Home = () => {
   useEffect(() => {
     const getDirections = async () => {
       try {
-        const { data } = await axios.get(
-          "https://api.openrouteservice.org/v2/directions/foot-walking",
-          {
-            params: {
-              api_key:
-                "5b3ce3597851110001cf6248deabef0b545a43fab6b247d0bfc3325c",
-              start: `${currentLocation?.longitude},${currentLocation?.latitude}`,
-              end: `${destination.longitude},${destination.latitude}`,
-            },
-          }
+        const query = new URLSearchParams();
+        query.append("profile", "foot");
+        query.append("points_encoded", "false");
+        query.append("key", "c7a05e01-fffd-4ec1-bdd5-b623c5fd2058");
+        query.append(
+          "point",
+          `${destination.latitude},${destination.longitude}`
         );
-        const coordinates = data.features[0].geometry.coordinates.map(
-          ([lng, lat]: [number, number]) => ({
-            latitude: lat,
-            longitude: lng,
-          })
+        query.append(
+          "point",
+          `${currentLocation?.latitude},${currentLocation?.longitude}`
+        );
+        const { data } = await axios.get(
+          `https://graphhopper.com/api/1/route?${query}`
+        );
+        const coordinates = data.paths[0].points.coordinates.map(
+          ([lng, lat]: [number, number]) => ({ longitude: lng, latitude: lat })
         );
         setRoute(coordinates);
       } catch (error) {
-        // console.error("Error fetching directions:", error);
+        // console.error("Error fetching directions:", error.message);
       }
     };
 
     getDirections();
   }, [currentLocation]);
+
+  useEffect(() => {
+    if (mapRef.current)
+      mapRef.current.animateCamera(
+        {
+          center: {
+            latitude: 14.753892,
+            longitude: 121.147094,
+          },
+          pitch: 45, // Tilt the map to 45 degrees
+          heading: 0, // Direction facing
+          altitude: 1000, // Zoom level
+          zoom: 10,
+        },
+        { duration: 10 }
+      );
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -143,6 +160,7 @@ const Home = () => {
                 {!isLoading && currentLocation ? (
                   <MapView
                     style={styles.map}
+                    ref={mapRef}
                     provider={PROVIDER_GOOGLE}
                     showsUserLocation
                     region={{
@@ -151,8 +169,24 @@ const Home = () => {
                       longitudeDelta: 0.005,
                       latitudeDelta: 0.005,
                     }}
-                    mapType="standard"
+                    showsBuildings
                     minZoomLevel={15}
+                    onMapReady={() => {
+                      if (mapRef.current)
+                        mapRef.current.animateCamera(
+                          {
+                            center: {
+                              latitude: 14.753892,
+                              longitude: 121.147094,
+                            },
+                            pitch: 45, // Tilt the map to 45 degrees
+                            heading: 0, // Direction facing
+                            altitude: 1000, // Zoom level
+                            zoom: 10,
+                          },
+                          { duration: 10 }
+                        );
+                    }}
                   >
                     <Marker
                       coordinate={destination}
