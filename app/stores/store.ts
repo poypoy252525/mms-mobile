@@ -1,21 +1,12 @@
-import { User } from "@react-native-google-signin/google-signin";
+import { Death } from "@/constants/Entity";
 import { create } from "zustand";
 
-interface UserAuth extends User {
-  setUser: (user: User) => void;
+interface Store {
+  death: Death | undefined;
+  setSelectedDeath: (death: Death) => void;
 }
 
-export const useUserStore = create<UserAuth>((set) => ({
-  idToken: null,
-  scopes: [],
-  serverAuthCode: null,
-  user: {
-    email: "",
-    familyName: null,
-    givenName: null,
-    id: "",
-    name: null,
-    photo: null,
-  },
-  setUser: (user: User) => set(() => ({ ...user })),
+export const useStore = create<Store>((set) => ({
+  death: undefined,
+  setSelectedDeath: (death: Death) => set(() => ({ death })),
 }));

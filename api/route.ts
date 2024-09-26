@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const routes = async (
+const getDirectionFromCurrentPosition = async (
   startLat: number,
   startLon: number,
   endLat: number,
@@ -17,11 +17,11 @@ const routes = async (
     const { data } = await axios.get(
       `https://graphhopper.com/api/1/route?${query}`
     );
-    return data.paths;
+    return { ...data };
   } catch (error) {
     // console.log(error);
   }
   return null;
 };
 
-export default routes;
+export default getDirectionFromCurrentPosition;
