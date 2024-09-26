@@ -1,8 +1,8 @@
-import { Death } from "@prisma/client";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { Death } from "@/constants/Entity";
 
 interface Props {
   death: Death;

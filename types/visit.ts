@@ -1,4 +1,4 @@
-import { Death } from "@prisma/client";
+import { Death } from "@/constants/Entity";
 
 export interface Visit {
   id: string;

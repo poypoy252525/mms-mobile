@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getDirectionFromCurrentPosition = async (
+const getDirectionFromCurrentPosition = async <T>(
   startLat: number,
   startLon: number,
   endLat: number,
@@ -14,12 +14,13 @@ const getDirectionFromCurrentPosition = async (
   query.append("key", "c7a05e01-fffd-4ec1-bdd5-b623c5fd2058");
 
   try {
-    const { data } = await axios.get(
+    const fetch = await axios.get<T>(
       `https://graphhopper.com/api/1/route?${query}`
     );
-    return { ...data };
+
+    return fetch.data;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
   return null;
 };

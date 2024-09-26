@@ -51,4 +51,34 @@ enum Status {
   INACTIVE,
 }
 
+interface Point {
+  type: string;
+  coordinates: number[][];
+}
+
+interface Path {
+  distance: number;
+  weight: number;
+  time: number;
+  transfers: number;
+  points_encoded: boolean;
+  bbox: number[];
+  points: Point;
+  instructions: Instruction[];
+}
+
+export interface Instruction {
+  distance: number;
+  heading: number;
+  sign: number;
+  interval: number[];
+  text: string;
+  time: number;
+  street_name: string;
+}
+
+export interface Directions {
+  paths: Path[];
+}
+
 export { Burial, Death, Status, User, Visit };

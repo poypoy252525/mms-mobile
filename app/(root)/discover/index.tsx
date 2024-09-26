@@ -11,7 +11,15 @@ const Discover = () => {
   const setSelectedDeath = useStore((state) => state.setSelectedDeath);
   useEffect(() => {
     const fetchDeaths = async () => {
-      const { data } = await axios.get<Death[]>(`${baseURL}/api/deaths`);
+      const searchParams = new URLSearchParams({
+        include: JSON.stringify({
+          burial: true,
+        }),
+      });
+      const { data } = await axios.get<Death[]>(
+        `${baseURL}/api/deaths?${searchParams}`
+      );
+
       setDeaths(data);
     };
     fetchDeaths();

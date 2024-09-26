@@ -4,6 +4,7 @@ import MapLibreGL from "@maplibre/maplibre-react-native";
 import { router } from "expo-router";
 import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { useStore } from "../stores/store";
 
 MapLibreGL.setAccessToken(null);
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const Map = ({ markPoint }: Props) => {
+  const directions = useStore((state) => state.directions);
   return (
     <MapLibreGL.MapView
       style={styles.map}
@@ -30,17 +32,30 @@ const Map = ({ markPoint }: Props) => {
         androidPreferredFramesPerSecond={30}
       />
       <MapLibreGL.Camera
-        maxBounds={{
-          ne: [121.147396, 14.754447],
-          sw: [121.145562, 14.753711],
-        }}
-        centerCoordinate={markPoint} // Adjust this to center around your building
-        zoomLevel={20}
-        minZoomLevel={18}
+        // maxBounds={{
+        //   ne: [121.147396, 14.754447],
+        //   sw: [121.145562, 14.753711],
+        // }}
         pitch={60}
+        centerCoordinate={[121.146484, 14.754098]}
         animationDuration={1000}
-        // followUserLocation
+        minZoomLevel={17}
+        followUserLocation={directions ? true : false}
       />
+      {directions && (
+        <MapLibreGL.ShapeSource
+          id="directions"
+          shape={{
+            type: "LineString",
+            coordinates: directions?.paths[0].points.coordinates,
+          }}
+        >
+          <MapLibreGL.LineLayer
+            id="directionLayer"
+            style={{ lineWidth: 10, lineColor: "blue", lineOpacity: 0.7 }}
+          />
+        </MapLibreGL.ShapeSource>
+      )}
 
       <MapLibreGL.ShapeSource
         id="routes"
