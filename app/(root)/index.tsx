@@ -5,6 +5,7 @@ import routes from "@/api/route";
 import { StatusBar } from "expo-status-bar";
 import building from "@/constants/buildings.json";
 import routesRoad from "@/constants/routes.json";
+import { router } from "expo-router";
 
 // Quirky step required on Android. See Android installation notes.
 MapLibreGL.setAccessToken(null);
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
     alignSelf: "stretch",
+    backgroundColor: "white",
   },
 });
 
@@ -31,17 +33,17 @@ const Home = () => {
     const getDirection = async () => {
       try {
         const paths = await routes(
-          14.753411,
-          121.150217,
-          14.754034,
-          121.146633
+          14.753874,
+          121.147166,
+          14.754287,
+          121.145643
         );
         if (paths) {
           const coordinates = paths[0].points.coordinates;
           setCoordinates(coordinates);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
     getDirection();
@@ -49,16 +51,27 @@ const Home = () => {
   return (
     <View style={styles.page}>
       <StatusBar style="dark" />
-      <MapLibreGL.MapView style={styles.map} pitchEnabled={true}>
+      <MapLibreGL.MapView
+        style={styles.map}
+        pitchEnabled={true}
+        logoEnabled={false}
+        compassEnabled
+        styleURL={styleUrl}
+      >
         <MapLibreGL.UserLocation
           androidRenderMode="compass"
           renderMode="native"
           androidPreferredFramesPerSecond={30}
         />
         <MapLibreGL.Camera
+          maxBounds={{
+            ne: [121.147396, 14.754447],
+            sw: [121.145562, 14.753711],
+          }}
           centerCoordinate={[121.147082, 14.753925]} // Adjust this to center around your building
-          zoomLevel={20} // Adjust zoom level as necessary
-          pitch={80} // Set pitch to see 3D effect
+          zoomLevel={20}
+          minZoomLevel={18}
+          pitch={60}
           animationDuration={1000}
         />
         {coordinates && (
@@ -66,14 +79,15 @@ const Home = () => {
             <MapLibreGL.ShapeSource
               id="routes"
               shape={routesRoad as GeoJSON.FeatureCollection}
+              onPress={() => router.navigate("/(root)/discover")}
             >
               <MapLibreGL.LineLayer
                 id="routesLine"
-                style={{ lineColor: "white", lineWidth: 10 }}
+                style={{ lineColor: "white", lineWidth: 20 }}
               />
             </MapLibreGL.ShapeSource>
 
-            {/* <MapLibreGL.ShapeSource
+            <MapLibreGL.ShapeSource
               id="polyline_routes"
               shape={{
                 type: "LineString",
@@ -82,9 +96,13 @@ const Home = () => {
             >
               <MapLibreGL.LineLayer
                 id="routeLine"
-                style={{ lineColor: "blue", lineWidth: 4 }}
+                style={{
+                  lineColor: "blue",
+                  lineWidth: 10,
+                  lineOpacity: 0.5,
+                }}
               />
-            </MapLibreGL.ShapeSource> */}
+            </MapLibreGL.ShapeSource>
 
             <MapLibreGL.ShapeSource
               id="buildings"
@@ -93,7 +111,7 @@ const Home = () => {
               <MapLibreGL.FillExtrusionLayer
                 id="buildingLayer"
                 style={{
-                  fillExtrusionHeight: 6,
+                  fillExtrusionHeight: 2.5,
                   fillExtrusionBase: 0,
                   fillExtrusionColor: "lightgray",
                   fillExtrusionOpacity: 1,

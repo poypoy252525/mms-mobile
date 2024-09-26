@@ -22,6 +22,7 @@ import {
 import CustomButton from "../_components/CustomButton";
 import axios, { AxiosError } from "axios";
 import { baseURL } from "@/constants/BaseURL";
+import ImageCover from "@/assets/images/image.png";
 
 const scopeBaseURL = "https://www.googleapis.com";
 
@@ -81,10 +82,7 @@ const SignIn = () => {
     >
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.imageContainer}>
-          <Image
-            source="https://amateurphotographer.com/wp-content/uploads/sites/7/2012/12/Andrew_Sanderson_frosty_graves_main.jpg"
-            style={styles.image}
-          />
+          <Image source={ImageCover} style={styles.image} />
           <LinearGradient
             colors={["transparent", "white"]}
             style={styles.imageGradient}
