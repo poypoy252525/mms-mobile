@@ -1,41 +1,69 @@
-import React, { useEffect } from "react";
-import { View } from "react-native";
 import {
   getCurrentPositionAsync,
   requestForegroundPermissionsAsync,
 } from "expo-location";
+import { useFocusEffect } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React, { useCallback, useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import HomeBottomSheet from "../_components/HomeBottomSheet";
+import HomeBottomSheet from "../_components/HomeBottomSheet/HomeBottomSheet";
 import Map from "../_components/Map";
 import { useStore } from "../stores/store";
-import { destination } from "@/constants/destination";
-
-// Quirky step required on Android. See Android installation notes.
 
 const Home = () => {
   const death = useStore((state) => state.death);
   const setCurrentLocation = useStore((state) => state.setCurrentLocation);
+  const currentLocation = useStore((state) => state.currentLocation);
+  const destination = useStore((state) => state.destination);
+  const [isVisible, setVisible] = useState<boolean>();
+  const setCameraCoordinate = useStore((state) => state.setCameraCoordinate);
 
   useEffect(() => {
     (async () => {
-      let { status } = await requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Location access denied");
-        return;
+      const { granted } = await requestForegroundPermissionsAsync();
+      if (granted) {
+        const currentLocation = await getCurrentPositionAsync();
+        setCurrentLocation(currentLocation.coords);
       }
-
-      let location = await getCurrentPositionAsync({});
-      setCurrentLocation(location.coords);
     })();
   }, []);
+  useEffect(() => {
+    if (destination) setCameraCoordinate(destination);
+    else if (currentLocation)
+      setCameraCoordinate([
+        currentLocation.longitude,
+        currentLocation.latitude,
+      ]);
+  }, [destination, currentLocation]);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Resume rendering when tab is focused
+      setVisible(true);
+
+      return () => {
+        // Pause rendering when tab is not focused
+        setVisible(false);
+      };
+    }, [])
+  );
+
+  if (!currentLocation) return <Text>Can not access location</Text>;
 
   return (
-    <GestureHandlerRootView>
-      <View style={{ flex: 1 }}>
-        <Map markPoint={destination} />
-        {death && <HomeBottomSheet death={death} />}
-      </View>
-    </GestureHandlerRootView>
+    <>
+      <StatusBar style="dark" />
+      <GestureHandlerRootView>
+        <View style={{ flex: 1 }}>
+          <View style={{ display: isVisible ? "flex" : "none", flex: 1 }}>
+            <Map markPoint={destination} />
+          </View>
+
+          {death && isVisible && <HomeBottomSheet death={death} />}
+        </View>
+      </GestureHandlerRootView>
+    </>
   );
 };
 

@@ -4,9 +4,11 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useStore } from "../stores/store";
-import CustomButton from "./CustomButton";
+import { useStore } from "../../stores/store";
+import CustomButton from "../CustomButton";
 import Feather from "@expo/vector-icons/Feather";
+import FirstScene from "./FirstScene";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 interface Props {
   death: Death;
@@ -14,7 +16,7 @@ interface Props {
 
 const HomeBottomSheet = ({ death }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["12%", "50%", "80%"], []);
+  const snapPoints = useMemo(() => ["12%", "44%", "80%"], []);
   const [burial, setBurial] = useState<Burial>();
   const currentLocation = useStore((state) => state.currentLocation);
   const setDirections = useStore((state) => state.setDirections);
@@ -29,101 +31,6 @@ const HomeBottomSheet = ({ death }: Props) => {
     if (directions) setInstructions(directions.paths[0].instructions);
     else setInstructions(undefined);
   }, [death, directions]);
-
-  const info = [
-    {
-      label: "Age",
-      value: death.age,
-    },
-    {
-      label: "Date of birth",
-      value: new Date(death.dateOfBirth).toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
-    },
-    {
-      label: "Date of death",
-      value: new Date(death.dateOfDeath).toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
-    },
-    {
-      label: "Next of kin name",
-      value: death.nextOfKinName,
-    },
-    {
-      label: "Next of kin relationship",
-      value: death.nextOfKinRelationship,
-    },
-  ];
-
-  const FirstScene = () => (
-    <View>
-      <Text
-        style={{ fontSize: 24 }}
-      >{`${death.firstName} ${death.lastName}`}</Text>
-      <View style={{ flexDirection: "row", gap: 16 }}>
-        <Text style={{ opacity: 0.5 }}>{death.status}</Text>
-        <Text
-          style={{ opacity: 0.5 }}
-        >{`${burial?.block}-${burial?.row}${burial?.plotNumber}`}</Text>
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <CustomButton
-          style={{ marginTop: 16 }}
-          onPress={async () => {
-            if (currentLocation) {
-              const directions =
-                await getDirectionFromCurrentPosition<Directions>(
-                  currentLocation?.latitude,
-                  currentLocation?.longitude,
-                  14.753982,
-                  121.147119
-                );
-              if (directions) setDirections(directions);
-              directions && bottomSheetRef.current?.collapse();
-            }
-          }}
-          title="Directions"
-          icon={<FontAwesome5 name="directions" size={22} color="white" />}
-        />
-      </View>
-      <View style={styles.subContent}>
-        {info.map((item, index) => (
-          <React.Fragment key={index}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-                gap: 16,
-              }}
-            >
-              <Text numberOfLines={1} style={{ color: "#858585", flex: 1 }}>
-                {item.label}
-              </Text>
-              <Text
-                numberOfLines={1}
-                style={{ color: "#333333", fontWeight: "500" }}
-              >
-                {item.value}
-              </Text>
-            </View>
-            {index < info.length - 1 && (
-              <View
-                style={{ width: "100%", height: 1, backgroundColor: "white" }}
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </View>
-    </View>
-  );
 
   const SecondScene = () => (
     <View>
@@ -184,22 +91,48 @@ const HomeBottomSheet = ({ death }: Props) => {
           >
             <View style={{ marginRight: 16 }}>
               {instruction.sign === -2 ? (
-                <Feather name="corner-up-left" size={24} color="black" />
+                <MaterialIcons name="turn-left" size={24} color="black" />
               ) : instruction.sign === 2 ? (
-                <Feather name="corner-up-right" size={24} color="black" />
+                <MaterialIcons name="turn-right" size={24} color="black" />
               ) : instruction.sign === 0 ? (
-                <Feather name="map-pin" size={24} color="black" />
+                <MaterialIcons name="location-pin" size={24} color="black" />
               ) : instruction.sign === -1 ? (
-                <Feather name="arrow-up-left" size={24} color="black" />
+                <MaterialIcons
+                  name="turn-slight-left"
+                  size={24}
+                  color="black"
+                />
               ) : instruction.sign === 1 ? (
-                <Feather name="corner-up-left" size={24} color="black" />
+                <MaterialIcons
+                  name="turn-slight-right"
+                  size={24}
+                  color="black"
+                />
+              ) : instruction.sign === -3 ? (
+                <MaterialIcons name="turn-sharp-left" size={24} color="black" />
+              ) : instruction.sign === 3 ? (
+                <MaterialIcons
+                  name="turn-sharp-right"
+                  size={24}
+                  color="black"
+                />
+              ) : instruction.sign === -7 ? (
+                <MaterialIcons name="arrow-back" size={24} color="black" />
+              ) : instruction.sign === 7 ? (
+                <MaterialIcons name="arrow-forward" size={24} color="black" />
+              ) : instruction.sign === -8 ? (
+                <MaterialIcons name="u-turn-left" size={24} color="black" />
+              ) : instruction.sign === 5 ? (
+                <MaterialIcons name="flag" size={24} color="black" />
               ) : (
-                <Feather name="flag" size={24} color="black" />
+                instruction.sign === 4 && (
+                  <MaterialIcons name="flag" size={24} color="black" />
+                )
               )}
             </View>
             <View>
               <Text style={{ fontSize: 16 }}>{instruction.text}</Text>
-              <Text style={{ opacity: 0.5 }}>{`${Math.round(
+              <Text style={{ opacity: 0.5, fontSize: 12 }}>{`${Math.round(
                 instruction.distance
               )}m`}</Text>
             </View>
@@ -218,7 +151,15 @@ const HomeBottomSheet = ({ death }: Props) => {
       index={1}
     >
       <BottomSheetScrollView style={styles.bottomSheetView}>
-        {!directions ? <FirstScene /> : <SecondScene />}
+        {!directions ? (
+          <FirstScene
+            burial={burial}
+            death={death}
+            currentLocation={currentLocation}
+          />
+        ) : (
+          <SecondScene />
+        )}
       </BottomSheetScrollView>
     </BottomSheet>
   );
@@ -241,12 +182,6 @@ const styles = StyleSheet.create({
   },
   bottomSheetView: {
     paddingHorizontal: 16,
-  },
-  subContent: {
-    backgroundColor: "#F6F8FA",
-    padding: 16,
-    borderRadius: 20,
-    gap: 10,
   },
 });
 

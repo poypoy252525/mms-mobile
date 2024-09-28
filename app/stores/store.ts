@@ -11,6 +11,10 @@ interface Store {
     latitude: number;
     longitude: number;
   }) => void;
+  cameraCoordinate: number[];
+  setCameraCoordinate: (coordinates: number[]) => void;
+  destination: number[] | undefined;
+  setDestination: (destionation: number[] | undefined) => void;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -22,4 +26,10 @@ export const useStore = create<Store>((set) => ({
   currentLocation: undefined,
   setCurrentLocation: (currentLocation) =>
     set((state) => ({ ...state, currentLocation })),
+  cameraCoordinate: [121.1464, 14.75410639],
+  setCameraCoordinate: (cameraCoordinate: number[]) =>
+    set((state) => ({ ...state, cameraCoordinate })),
+  destination: undefined,
+  setDestination: (destination: number[] | undefined) =>
+    set((state) => ({ ...state, destination })),
 }));

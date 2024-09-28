@@ -1,9 +1,9 @@
+import Marker from "@/assets/images/marker-pin.png";
 import building from "@/constants/buildings.json";
 import routesRoad from "@/constants/routes.json";
 import MapLibreGL from "@maplibre/maplibre-react-native";
-import { router } from "expo-router";
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { useStore } from "../stores/store";
 
 MapLibreGL.setAccessToken(null);
@@ -17,6 +17,13 @@ interface Props {
 
 const Map = ({ markPoint }: Props) => {
   const directions = useStore((state) => state.directions);
+  const currentLocation = useStore((state) => state.currentLocation);
+  const cameraCoordinate = useStore((state) => state.cameraCoordinate);
+  const destination = useStore((state) => state.destination);
+  const death = useStore((state) => state.death);
+
+  useEffect(() => {}, []);
+
   return (
     <MapLibreGL.MapView
       style={styles.map}
@@ -37,10 +44,10 @@ const Map = ({ markPoint }: Props) => {
         //   sw: [121.145562, 14.753711],
         // }}
         pitch={60}
-        centerCoordinate={[121.146484, 14.754098]}
+        centerCoordinate={cameraCoordinate}
+        heading={directions?.paths[0].instructions[0].heading}
         animationDuration={1000}
-        minZoomLevel={17}
-        followUserLocation={directions ? true : false}
+        zoomLevel={19.5}
       />
       {directions && (
         <MapLibreGL.ShapeSource
@@ -52,7 +59,14 @@ const Map = ({ markPoint }: Props) => {
         >
           <MapLibreGL.LineLayer
             id="directionLayer"
-            style={{ lineWidth: 10, lineColor: "blue", lineOpacity: 0.7 }}
+            style={{
+              lineWidth: 8,
+              lineColor: "blue",
+              lineOpacity: 0.7,
+              lineCap: "round",
+              lineJoin: "round",
+            }}
+            belowLayerID="buildingLayer"
           />
         </MapLibreGL.ShapeSource>
       )}
@@ -81,6 +95,37 @@ const Map = ({ markPoint }: Props) => {
           }}
         />
       </MapLibreGL.ShapeSource>
+      {destination && (
+        <MapLibreGL.ShapeSource
+          id="pinSource"
+          shape={{
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                properties: {
+                  title: "mark",
+                },
+                geometry: {
+                  type: "Point",
+                  coordinates: destination,
+                },
+              },
+            ],
+          }}
+          onPress={() => console.log("marker pressed")}
+        >
+          <MapLibreGL.SymbolLayer
+            id="markerSymbol"
+            style={{
+              iconImage: Marker, // You can set a custom icon
+              iconSize: 0.05, // Adjust the size of the icon
+              iconAnchor: "bottom",
+              iconAllowOverlap: true,
+            }}
+          />
+        </MapLibreGL.ShapeSource>
+      )}
     </MapLibreGL.MapView>
   );
 };

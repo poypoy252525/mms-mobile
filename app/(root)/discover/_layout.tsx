@@ -6,7 +6,6 @@ const Layout = () => {
   return (
     <Stack screenOptions={{ headerShown: false, animation: "ios" }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="[deathId]" />
     </Stack>
   );
 };

@@ -1,31 +1,33 @@
+import React, { ReactNode } from "react";
 import {
-  View,
-  Text,
+  ActivityIndicator,
   Pressable,
   StyleSheet,
-  PressableProps,
+  Text,
   ViewStyle,
 } from "react-native";
-import React, { ReactNode } from "react";
 
 interface Props {
   onPress: () => void;
   title: string;
   style?: ViewStyle;
   icon?: ReactNode;
+  isLoading?: boolean;
 }
 
-const CustomButton = ({ onPress, title, style, icon }: Props) => {
+const CustomButton = ({ onPress, title, style, icon, isLoading }: Props) => {
   return (
     <Pressable
       style={({ pressed }) => [
         styles.button,
         { backgroundColor: pressed ? "#006cd0" : "#0286FF" },
         style,
+        isLoading && { opacity: 0.7 },
       ]}
       onPress={() => onPress()}
+      disabled={isLoading}
     >
-      {icon}
+      {isLoading ? <ActivityIndicator color="white" /> : icon}
       <Text style={{ color: "white", fontWeight: "600", marginLeft: 14 }}>
         {title}
       </Text>
