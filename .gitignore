@@ -12,6 +12,7 @@ web-build/
 android
 ios
 credentials.json
+google-services.json
 
 # macOS
 .DS_Store

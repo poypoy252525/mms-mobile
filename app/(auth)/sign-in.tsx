@@ -3,7 +3,7 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Redirect, router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 
 import {
   GoogleSignin,
@@ -23,6 +23,7 @@ import CustomButton from "../_components/CustomButton";
 import axios, { AxiosError } from "axios";
 import { baseURL } from "@/constants/BaseURL";
 import ImageCover from "@/assets/images/image.png";
+import { Button } from "react-native-paper";
 
 const scopeBaseURL = "https://www.googleapis.com";
 
@@ -31,9 +32,10 @@ GoogleSignin.configure({
     "574017815971-irdgco7gesi6t214h9i8dejgrd9ldn21.apps.googleusercontent.com",
 });
 
-const signIn = async () => {
+const signIn = async (setLoading: (isLoading: boolean) => void) => {
   try {
     await GoogleSignin.hasPlayServices();
+    setLoading(true);
     const response = await GoogleSignin.signIn();
     if (isSuccessResponse(response)) {
       const { user } = response.data;
@@ -58,7 +60,7 @@ const signIn = async () => {
     if (isErrorWithCode(error)) {
       switch (error.code) {
         case statusCodes.IN_PROGRESS:
-          // operation (eg. sign in) already in progress
+          console.log("progressing");
           break;
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
           // Android only, play services not available or outdated
@@ -69,10 +71,13 @@ const signIn = async () => {
     } else {
       // an error that's not related to google sign in occurred
     }
+  } finally {
+    setLoading(false);
   }
 };
 
 const SignIn = () => {
+  const [isLoading, setLoading] = useState<boolean>();
   if (GoogleSignin.getCurrentUser()) return <Redirect href="/(root)" />;
 
   return (
@@ -90,11 +95,16 @@ const SignIn = () => {
           <Text style={styles.title}>Sign in</Text>
         </View>
         <View style={styles.contentContainer}>
-          <CustomButton
-            icon={<AntDesign name="google" size={24} color="white" />}
-            onPress={signIn}
-            title="Sign in with Google"
-          />
+          <Button
+            icon="google"
+            onPress={() => signIn(setLoading)}
+            style={{ width: "100%" }}
+            mode="contained"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Sign in with Google
+          </Button>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

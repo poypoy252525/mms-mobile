@@ -1,14 +1,10 @@
-import getDirectionFromCurrentPosition from "@/api/route";
-import { Burial, Death, Directions, Instruction } from "@/constants/Entity";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { Burial, Death, Instruction } from "@/constants/Entity";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useStore } from "../../stores/store";
-import CustomButton from "../CustomButton";
-import Feather from "@expo/vector-icons/Feather";
 import FirstScene from "./FirstScene";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 interface Props {
   death: Death;
@@ -16,7 +12,7 @@ interface Props {
 
 const HomeBottomSheet = ({ death }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["12%", "44%", "80%"], []);
+  const snapPoints = useMemo(() => ["9%", "44%", "80%"], []);
   const [burial, setBurial] = useState<Burial>();
   const currentLocation = useStore((state) => state.currentLocation);
   const setDirections = useStore((state) => state.setDirections);

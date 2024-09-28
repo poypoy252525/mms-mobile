@@ -29,7 +29,8 @@
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
-      ]
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -50,9 +51,7 @@
           "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
         }
       ],
-      [
-        "@maplibre/maplibre-react-native"
-      ]
+      ["@maplibre/maplibre-react-native"]
     ],
     "experiments": {
       "typedRoutes": true

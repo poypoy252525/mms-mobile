@@ -11,6 +11,7 @@ import {
   getCurrentPositionAsync,
   getForegroundPermissionsAsync,
 } from "expo-location";
+import { Button } from "react-native-paper";
 
 interface Props {
   death: Death;
@@ -83,7 +84,7 @@ const FirstScene = ({
         >{`${burial?.block}-${burial?.row}${burial?.plotNumber}`}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
-        <CustomButton
+        {/* <CustomButton
           style={{ marginTop: 16 }}
           onPress={async () => {
             if (currentLocation && destination) {
@@ -107,7 +108,35 @@ const FirstScene = ({
           title="Directions"
           icon={<FontAwesome5 name="directions" size={22} color="white" />}
           isLoading={isLoading}
-        />
+        /> */}
+        <Button
+          icon="directions"
+          mode="contained"
+          style={{ width: "100%", marginBottom: 24, marginTop: 16 }}
+          onPress={async () => {
+            if (currentLocation && destination) {
+              setLoading(true);
+              const directions =
+                await getDirectionFromCurrentPosition<Directions>(
+                  currentLocation?.latitude,
+                  currentLocation?.longitude,
+                  destination[1],
+                  destination[0]
+                );
+              if (directions) setDirections(directions);
+              setLoading(false);
+              setCameraCoordinate([
+                currentLocation.longitude,
+                currentLocation.latitude,
+              ]);
+              directions && bottomSheetRef?.collapse();
+            }
+          }}
+          disabled={isLoading}
+          loading={isLoading}
+        >
+          Directions
+        </Button>
       </View>
       <View style={styles.subContent}>
         {info.map((item, index) => (

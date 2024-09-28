@@ -72,16 +72,6 @@ const Map = ({ markPoint }: Props) => {
       )}
 
       <MapLibreGL.ShapeSource
-        id="routes"
-        shape={routesRoad as GeoJSON.FeatureCollection}
-      >
-        <MapLibreGL.LineLayer
-          id="routesLine"
-          style={{ lineColor: "white", lineWidth: 20 }}
-        />
-      </MapLibreGL.ShapeSource>
-
-      <MapLibreGL.ShapeSource
         id="buildings"
         shape={building as GeoJSON.FeatureCollection}
       >

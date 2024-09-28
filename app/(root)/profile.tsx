@@ -1,48 +1,10 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Image } from "expo-image";
 import React from "react";
-import { Text, View, useWindowDimensions } from "react-native";
-import {
-  TabView,
-  SceneMap,
-  TabBar,
-  TabBarProps,
-  Route,
-} from "react-native-tab-view";
-
-const FirstRoute = () => (
-  <View style={{ flex: 1 }}>
-    <Text>Visits tab</Text>
-  </View>
-);
-
-const SecondRoute = () => (
-  <View style={{ flex: 1 }}>
-    <Text>Plan to visit</Text>
-  </View>
-);
-
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-});
-
-const renderTabBar = (props: TabBarProps<Route>) => (
-  <TabBar
-    {...props}
-    indicatorStyle={{ backgroundColor: "black" }}
-    style={{ backgroundColor: "white" }}
-    labelStyle={{ color: "black", textTransform: "none" }}
-  />
-);
+import { Text, View } from "react-native";
+import { TabScreen, Tabs, TabsProvider } from "react-native-paper-tabs";
 
 const Profile = () => {
-  const layout = useWindowDimensions();
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: "first", title: "Visits" },
-    { key: "second", title: "Plan to visits" },
-  ]);
   const summary = [
     { label: "Visits", value: 1 },
     { label: "Plans", value: 2 },
@@ -77,16 +39,33 @@ const Profile = () => {
           </View>
         ))}
       </View>
-      <TabView
-        style={{ flex: 1 }}
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-        initialLayout={{ width: layout.width }}
-        renderTabBar={renderTabBar}
-      />
+      <TabsProvider defaultIndex={0}>
+        <Tabs
+          style={{ backgroundColor: "white" }}
+          theme={{ colors: { primary: "black" } }}
+        >
+          <TabScreen label="Visits">
+            <VisitTab />
+          </TabScreen>
+          <TabScreen label="Plan to visit">
+            <PlanToVisitTab />
+          </TabScreen>
+        </Tabs>
+      </TabsProvider>
     </View>
   );
 };
+
+const VisitTab = () => (
+  <View>
+    <Text>No visits</Text>
+  </View>
+);
+
+const PlanToVisitTab = () => (
+  <View>
+    <Text>Plan to visits</Text>
+  </View>
+);
 
 export default Profile;
