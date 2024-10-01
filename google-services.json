@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "692316997594",
+    "project_id": "mms-verification",
+    "storage_bucket": "mms-verification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692316997594:android:6fc9547c6f2be1817062e3",
+        "android_client_info": {
+          "package_name": "com.poypoy.mmsmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "692316997594-qqqffaiujkp249laedo6ge7015ocd2dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAutya9S24RzbjcW_kd_mVffByx_05AnBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692316997594-qqqffaiujkp249laedo6ge7015ocd2dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

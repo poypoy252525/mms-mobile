@@ -28,6 +28,7 @@ const Home = () => {
       }
     })();
   }, []);
+
   useEffect(() => {
     if (destination) setCameraCoordinate(destination);
     else if (currentLocation)
