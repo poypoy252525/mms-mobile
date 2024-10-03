@@ -60,7 +60,7 @@ const Discover = () => {
             }}
             onPress={() => {
               router.navigate("/(root)");
-              setDestination([121.147187, 14.753852]);
+              setDestination([121.146372, 14.732902]);
               setSelectedDeath(death);
             }}
           >

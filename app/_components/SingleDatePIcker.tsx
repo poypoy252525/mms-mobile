@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import {
@@ -12,9 +12,10 @@ registerTranslation("en", en);
 
 interface Props {
   label?: string;
+  onPickdate: (selectedDate?: Date) => void;
 }
 
-const SingleDatePicker = ({ label }: Props) => {
+const SingleDatePicker = ({ label, onPickdate }: Props) => {
   const [date, setDate] = React.useState<Date>();
   const [open, setOpen] = React.useState(false);
 
@@ -29,6 +30,10 @@ const SingleDatePicker = ({ label }: Props) => {
     },
     [setOpen, setDate]
   );
+
+  useEffect(() => {
+    onPickdate(date);
+  }, [date]);
 
   return (
     <View>

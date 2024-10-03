@@ -5,6 +5,7 @@ import MapLibreGL from "@maplibre/maplibre-react-native";
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { useStore } from "../stores/store";
+import map from "@/constants/map.json";
 
 MapLibreGL.setAccessToken(null);
 
@@ -31,7 +32,7 @@ const Map = ({ markPoint }: Props) => {
       logoEnabled={false}
       compassEnabled
       compassViewPosition={2}
-      styleURL={styleUrl}
+      // styleURL={styleUrl}
     >
       <MapLibreGL.UserLocation
         androidRenderMode="compass"
@@ -39,46 +40,40 @@ const Map = ({ markPoint }: Props) => {
         androidPreferredFramesPerSecond={30}
       />
       <MapLibreGL.Camera
-        // maxBounds={{
-        //   ne: [121.147396, 14.754447],
-        //   sw: [121.145562, 14.753711],
-        // }}
-        pitch={60}
         centerCoordinate={cameraCoordinate}
         heading={directions?.paths[0].instructions[0].heading}
         animationDuration={1000}
-        zoomLevel={19.5}
+        zoomLevel={18}
       />
       {directions && (
         <MapLibreGL.ShapeSource
           id="directions"
           shape={{
             type: "LineString",
-            coordinates: directions?.paths[0].points.coordinates,
+            coordinates: directions.paths[0].points.coordinates,
           }}
         >
           <MapLibreGL.LineLayer
             id="directionLayer"
             style={{
-              lineWidth: 8,
+              lineWidth: 5,
               lineColor: "blue",
               lineOpacity: 0.7,
               lineCap: "round",
               lineJoin: "round",
             }}
-            belowLayerID="buildingLayer"
           />
         </MapLibreGL.ShapeSource>
       )}
 
       <MapLibreGL.ShapeSource
         id="buildings"
-        shape={building as GeoJSON.FeatureCollection}
+        shape={map as GeoJSON.FeatureCollection}
       >
         <MapLibreGL.FillExtrusionLayer
           id="buildingLayer"
           style={{
-            fillExtrusionHeight: 2.5,
+            fillExtrusionHeight: 0,
             fillExtrusionBase: 0,
             fillExtrusionColor: "#c3c3c3",
             fillExtrusionOpacity: 1,
