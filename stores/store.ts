@@ -18,6 +18,7 @@ interface Store {
   setDestination: (destionation: number[] | undefined) => void;
   notification: Notification | undefined;
   setNotification: (notification: Notification | undefined) => void;
+  reset: () => void;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -38,4 +39,5 @@ export const useStore = create<Store>((set) => ({
   notification: undefined,
   setNotification: (notification: Notification | undefined) =>
     set((state) => ({ ...state, notification })),
+  reset: () => set(() => ({})),
 }));

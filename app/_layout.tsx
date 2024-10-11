@@ -13,8 +13,13 @@ const theme: MD3Theme = {
 export default function RootLayout() {
   return (
     <PaperProvider theme={theme}>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ animation: "ios" }}>
+      <Stack
+        screenOptions={{
+          animation: "ios",
+          statusBarStyle: "dark",
+          statusBarColor: "white",
+        }}
+      >
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(root)" options={{ headerShown: false }} />
       </Stack>

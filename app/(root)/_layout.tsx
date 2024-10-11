@@ -1,16 +1,20 @@
-import { router, Tabs } from "expo-router";
+import { useStore } from "@/stores/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image } from "expo-image";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { Dimensions, Text, TouchableOpacity, View } from "react-native";
-import CustomInputWithIcon from "../_components/CustomInputWithIcon";
+import { Image } from "expo-image";
+import { router, Tabs } from "expo-router";
+import { View } from "react-native";
+import { Button } from "react-native-paper";
 
 const Layout = () => {
+  const reset = useStore((state) => state.reset);
   return (
     <Tabs
       screenOptions={{
         tabBarLabel: () => null,
         tabBarActiveTintColor: "black",
+        tabBarHideOnKeyboard: true,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
@@ -30,27 +34,7 @@ const Layout = () => {
       <Tabs.Screen
         name="discover"
         options={{
-          headerShown: true,
-          headerTitle: () => (
-            <View
-              style={{
-                flex: 1,
-                paddingVertical: 8,
-                width: "100%",
-              }}
-            >
-              <CustomInputWithIcon
-                icon={<Ionicons name="search-outline" />}
-                placeholder="Search for..."
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  width: "100%",
-                  borderWidth: 0,
-                }}
-              />
-            </View>
-          ),
+          headerShown: false,
           headerTitleContainerStyle: { flex: 1, width: "100%" },
           headerLeftContainerStyle: { display: "none" },
           headerRightContainerStyle: { display: "none" },
@@ -64,10 +48,9 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="create"
+        name="relatives"
         options={{
-          headerShown: true,
-          title: "Create request",
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "add-circle" : "add-circle-outline"}
@@ -96,18 +79,20 @@ const Layout = () => {
         options={{
           headerShown: true,
           title: `${GoogleSignin.getCurrentUser()?.user.email}`,
-          headerTitleStyle: { fontSize: 18 },
+          headerTitleStyle: { fontSize: 18, flexShrink: 1, flexGrow: 0 },
           headerRight: ({}) => (
-            <TouchableOpacity
-              style={{ marginRight: 12 }}
+            <Button
+              mode="text"
               onPress={async () => {
                 await GoogleSignin.signOut();
+                reset();
                 router.push("/(auth)/sign-in");
               }}
             >
-              <Text style={{ fontWeight: 500 }}>Logout</Text>
-            </TouchableOpacity>
+              Logout
+            </Button>
           ),
+          headerRightContainerStyle: { flexShrink: 0, flexGrow: 1 },
           tabBarIcon: ({ color, focused, size }) =>
             GoogleSignin.getCurrentUser()?.user.photo ? (
               <Image

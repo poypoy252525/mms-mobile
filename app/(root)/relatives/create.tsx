@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
-import SingleDatePicker from "../_components/SingleDatePIcker";
+import SingleDatePicker from "../../_components/SingleDatePIcker";
 import axios from "axios";
 import { baseURL } from "@/constants/BaseURL";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import CreateRequestAlertDialog from "../_components/CreateRequestAlertDialog";
+import CreateRequestAlertDialog from "../../_components/CreateRequestAlertDialog";
+import MultiSelectInput from "../../_components/MultiSelectInput";
 
 export interface FormData {
   firstName?: string;
@@ -13,9 +14,11 @@ export interface FormData {
   causeOfDeath?: string;
   dateOfBirth?: Date;
   dateOfDeath?: Date;
-  relativeName?: string;
-  relativeRelationship?: string;
-  contact?: string;
+  relatives?: Relative[];
+}
+
+export interface Relative {
+  userId?: string;
 }
 
 const Create = () => {
@@ -97,30 +100,17 @@ const Create = () => {
               </Text>
             </View>
             <View style={{ gap: 16, flex: 1 }}>
-              <TextInput
-                onChangeText={(text) =>
-                  setFormData((prev) => ({ ...prev, relativeName: text }))
-                }
-                label="Name"
-                mode="outlined"
-              />
-              <TextInput
+              {/* <TextInput
                 onChangeText={(text) =>
                   setFormData((prev) => ({
                     ...prev,
-                    relativeRelationship: text,
+                    relatives: [{ userId: text }],
                   }))
                 }
-                label="Relationship"
+                label="Email"
                 mode="outlined"
-              />
-              <TextInput
-                onChangeText={(text) =>
-                  setFormData((prev) => ({ ...prev, contact: text }))
-                }
-                label="Contact number"
-                mode="outlined"
-              />
+              /> */}
+              <MultiSelectInput />
             </View>
           </View>
           <CreateRequestAlertDialog onSubmit={() => handleSubmit()} />

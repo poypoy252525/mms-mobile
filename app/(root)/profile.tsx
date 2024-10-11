@@ -44,11 +44,11 @@ const Profile = () => {
           style={{ backgroundColor: "white" }}
           theme={{ colors: { primary: "black" } }}
         >
-          <TabScreen label="Visits">
-            <VisitTab />
+          <TabScreen label="Records">
+            <RecordTab />
           </TabScreen>
-          <TabScreen label="Plan to visit">
-            <PlanToVisitTab />
+          <TabScreen label="Request">
+            <RequestTab />
           </TabScreen>
         </Tabs>
       </TabsProvider>
@@ -56,15 +56,15 @@ const Profile = () => {
   );
 };
 
-const VisitTab = () => (
+const RecordTab = () => (
   <View>
-    <Text>No visits</Text>
+    <Text>Records</Text>
   </View>
 );
 
-const PlanToVisitTab = () => (
+const RequestTab = () => (
   <View>
-    <Text>Plan to visits</Text>
+    <Text>Requests</Text>
   </View>
 );
 

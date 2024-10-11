@@ -9,7 +9,7 @@ import { Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import HomeBottomSheet from "../_components/HomeBottomSheet/HomeBottomSheet";
 import Map from "../_components/Map";
-import { useStore } from "../stores/store";
+import { useStore } from "../../stores/store";
 
 const Home = () => {
   const death = useStore((state) => state.death);
@@ -49,18 +49,15 @@ const Home = () => {
   if (!currentLocation) return <Text>Can not access location</Text>;
 
   return (
-    <>
-      <StatusBar style="dark" />
-      <GestureHandlerRootView>
-        <View style={{ flex: 1 }}>
-          <View style={{ display: isVisible ? "flex" : "none", flex: 1 }}>
-            <Map markPoint={destination} />
-          </View>
-
-          {death && isVisible && <HomeBottomSheet death={death} />}
+    <GestureHandlerRootView>
+      <View style={{ flex: 1 }}>
+        <View style={{ display: isVisible ? "flex" : "none", flex: 1 }}>
+          <Map markPoint={destination} />
         </View>
-      </GestureHandlerRootView>
-    </>
+
+        {death && isVisible && <HomeBottomSheet death={death} />}
+      </View>
+    </GestureHandlerRootView>
   );
 };
 

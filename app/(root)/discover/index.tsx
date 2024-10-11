@@ -1,74 +1,54 @@
-import { useStore } from "@/app/stores/store";
+import BurialTypeCard from "@/app/_components/BurialTypeCard";
 import { baseURL } from "@/constants/BaseURL";
 import { Death } from "@/constants/Entity";
 import axios from "axios";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const burialType = [
+  {
+    title: "Lawn Lot",
+    image: "https://picsum.photos/700",
+    path: "/(root)/discover/lawn" as Href,
+  },
+  {
+    title: "Family Lot",
+    image: "https://picsum.photos/700",
+    path: "/(root)/discover/family" as Href,
+  },
+  {
+    title: "Apartment Lot",
+    image: "https://picsum.photos/700",
+    path: "/(root)/discover/apartment" as Href,
+  },
+  {
+    title: "Columbary Lot",
+    image: "https://picsum.photos/700",
+    path: "/(root)/discover/columbary" as Href,
+  },
+];
 
 const Discover = () => {
-  const [deaths, setDeaths] = useState<Death[]>();
-  const setSelectedDeath = useStore((state) => state.setSelectedDeath);
-  const setDestination = useStore((state) => state.setDestination);
-  const [isLoading, setLoading] = useState<boolean>();
-  useEffect(() => {
-    const fetchDeaths = async () => {
-      setLoading(true);
-      const searchParams = new URLSearchParams({
-        include: JSON.stringify({
-          burial: true,
-        }),
-      });
-      const { data } = await axios.get<Death[]>(
-        `${baseURL}/api/deaths?${searchParams}`
-      );
-
-      setDeaths(data);
-      setLoading(false);
-    };
-    fetchDeaths();
-  }, []);
-
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
-      {isLoading ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-          }}
-        >
-          <ActivityIndicator />
+    <View style={{ flex: 1 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+        <View style={{ flexDirection: "row", padding: 20 }}>
+          <View style={{ width: "100%", gap: 12 }}>
+            {burialType.map((burial, index) => (
+              <BurialTypeCard
+                key={index}
+                description="This is the brief description about this burial type"
+                image={burial.image}
+                title={burial.title}
+                onPress={() => router.navigate(burial.path)}
+              />
+            ))}
+          </View>
         </View>
-      ) : (
-        deaths?.map((death) => (
-          <Pressable
-            key={death.id}
-            style={{
-              width: "100%",
-              height: 50,
-              paddingHorizontal: 24,
-              justifyContent: "center",
-              borderBottomWidth: 1,
-              borderBottomColor: "lightgray",
-            }}
-            onPress={() => {
-              router.navigate("/(root)");
-              setDestination([121.146372, 14.732902]);
-              setSelectedDeath(death);
-            }}
-          >
-            <Text key={death.id}>{`${death.firstName} ${death.lastName}`}</Text>
-          </Pressable>
-        ))
-      )}
-    </KeyboardAvoidingView>
+      </ScrollView>
+    </View>
   );
 };
 

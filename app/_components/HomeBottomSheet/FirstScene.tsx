@@ -4,7 +4,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React, { useEffect, useState } from "react";
 import { Burial, Death, Directions } from "@/constants/Entity";
 import getDirectionFromCurrentPosition from "@/api/route";
-import { useStore } from "@/app/stores/store";
+import { useStore } from "@/stores/store";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { StyleSheet } from "react-native";
 import {

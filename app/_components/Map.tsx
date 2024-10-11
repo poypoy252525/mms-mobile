@@ -1,11 +1,9 @@
 import Marker from "@/assets/images/marker-pin.png";
-import building from "@/constants/buildings.json";
-import routesRoad from "@/constants/routes.json";
+import map from "@/constants/map.json";
 import MapLibreGL from "@maplibre/maplibre-react-native";
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { useStore } from "../stores/store";
-import map from "@/constants/map.json";
+import { useStore } from "../../stores/store";
 
 MapLibreGL.setAccessToken(null);
 
@@ -32,7 +30,7 @@ const Map = ({ markPoint }: Props) => {
       logoEnabled={false}
       compassEnabled
       compassViewPosition={2}
-      // styleURL={styleUrl}
+      styleURL={styleUrl}
     >
       <MapLibreGL.UserLocation
         androidRenderMode="compass"
@@ -66,7 +64,7 @@ const Map = ({ markPoint }: Props) => {
         </MapLibreGL.ShapeSource>
       )}
 
-      <MapLibreGL.ShapeSource
+      {/* <MapLibreGL.ShapeSource
         id="buildings"
         shape={map as GeoJSON.FeatureCollection}
       >
@@ -79,7 +77,7 @@ const Map = ({ markPoint }: Props) => {
             fillExtrusionOpacity: 1,
           }}
         />
-      </MapLibreGL.ShapeSource>
+      </MapLibreGL.ShapeSource> */}
       {destination && (
         <MapLibreGL.ShapeSource
           id="pinSource"

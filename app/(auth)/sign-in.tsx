@@ -28,7 +28,7 @@ import * as Notifications from "expo-notifications";
 import { useEffect, useRef } from "react";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
-import { useStore } from "../stores/store";
+import { useStore } from "../../stores/store";
 
 GoogleSignin.configure({
   webClientId:
