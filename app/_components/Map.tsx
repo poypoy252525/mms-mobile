@@ -7,8 +7,8 @@ import { useStore } from "../../stores/store";
 
 MapLibreGL.setAccessToken(null);
 
-const apiKey = "7d1e7cd9-770c-4ae4-b4f9-895c8171210e";
-const styleUrl = `https://tiles.stadiamaps.com/styles/osm_bright.json?api_key=${apiKey}`;
+// const apiKey = "7d1e7cd9-770c-4ae4-b4f9-895c8171210e";
+const styleUrl = `https://api.maptiler.com/maps/34a6b3c5-b4e5-4292-99ac-4431a8b1b7d3/style.json?key=AWxYqeit04pvjyks83vM`;
 
 interface Props {
   markPoint?: number[];
@@ -37,12 +37,14 @@ const Map = ({ markPoint }: Props) => {
         renderMode="native"
         androidPreferredFramesPerSecond={30}
       />
-      <MapLibreGL.Camera
-        centerCoordinate={cameraCoordinate}
+      {/* <MapLibreGL.Camera
+        // centerCoordinate={cameraCoordinate}
         heading={directions?.paths[0].instructions[0].heading}
         animationDuration={1000}
         zoomLevel={18}
-      />
+        pitch={60}
+        minZoomLevel={17}
+      /> */}
       {directions && (
         <MapLibreGL.ShapeSource
           id="directions"

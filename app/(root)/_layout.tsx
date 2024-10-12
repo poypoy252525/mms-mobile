@@ -24,7 +24,7 @@ const Layout = () => {
           title: "Gravestone GPS",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "home" : "home-outline"}
+              name={focused ? "map" : "map-outline"}
               size={24}
               color={color}
             />
