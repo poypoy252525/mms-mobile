@@ -40,7 +40,7 @@ const Map = ({ markPoint }: Props) => {
         const { data } = await axios.post(
           `https://graphhopper-fx1s.onrender.com/route`,
           JSON.stringify({
-            profile: "foot",
+            profile,
             points: [
               [currentLocation?.longitude, currentLocation?.latitude],
               destination,

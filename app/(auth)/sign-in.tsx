@@ -1,16 +1,21 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Fontisto from "@expo/vector-icons/Fontisto";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Redirect, router } from "expo-router";
 import React, { useState } from "react";
 
+import ImageCover from "@/assets/images/image.png";
+import { baseURL } from "@/constants/BaseURL";
 import {
   GoogleSignin,
   isErrorWithCode,
   isSuccessResponse,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import axios from "axios";
+import Constants from "expo-constants";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
+import { useEffect, useRef } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -19,15 +24,7 @@ import {
   Text,
   View,
 } from "react-native";
-import CustomButton from "../_components/CustomButton";
-import axios, { AxiosError } from "axios";
-import { baseURL } from "@/constants/BaseURL";
-import ImageCover from "@/assets/images/image.png";
 import { Button } from "react-native-paper";
-import * as Notifications from "expo-notifications";
-import { useEffect, useRef } from "react";
-import Constants from "expo-constants";
-import * as Device from "expo-device";
 import { useStore } from "../../stores/store";
 
 GoogleSignin.configure({
