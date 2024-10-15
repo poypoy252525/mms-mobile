@@ -63,7 +63,7 @@ interface Path {
   transfers: number;
   points_encoded: boolean;
   bbox: number[];
-  points: Point;
+  points: GeoJSON.LineString;
   instructions: Instruction[];
 }
 

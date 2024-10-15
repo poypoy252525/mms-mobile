@@ -1,15 +1,14 @@
 import Illustration3 from "@/assets/images/connection-illustration.png";
 import Illustration1 from "@/assets/images/map-illustration.png";
 import Illustration2 from "@/assets/images/navigate-illustration.png";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Image } from "expo-image";
 import { Redirect, router } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import React, { useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 import CustomButton from "../_components/CustomButton";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const swiperPage = [
   {
@@ -39,44 +38,41 @@ const index = () => {
   if (GoogleSignin.getCurrentUser()) return <Redirect href="/(root)" />;
 
   return (
-    <>
-      <StatusBar style="dark" />
-      <SafeAreaView style={styles.container}>
-        <View style={styles.skipContainer}>
-          <TouchableOpacity onPress={() => router.push("/(auth)/sign-in")}>
-            <Text style={styles.skip}>Skip</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.slideContainer}>
-          <Swiper
-            loop={false}
-            ref={swiperRef}
-            onIndexChanged={(index) => setActiveIndex(index)}
-          >
-            {swiperPage.map((page, index) => (
-              <View key={index} style={styles.slide}>
-                <Image
-                  style={styles.image}
-                  source={page.image}
-                  contentFit="cover"
-                />
-                <Text style={styles.title}>{page.title}</Text>
-                <Text style={styles.description}>{page.description}</Text>
-              </View>
-            ))}
-          </Swiper>
-        </View>
-        <CustomButton
-          onPress={() =>
-            isLastSlide
-              ? router.push("/(auth)/sign-in")
-              : swiperRef.current?.scrollBy(1)
-          }
-          title={isLastSlide ? "Get started" : "Next"}
-          style={{ width: "90%" }}
-        />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.skipContainer}>
+        <TouchableOpacity onPress={() => router.push("/(auth)/sign-in")}>
+          <Text style={styles.skip}>Skip</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.slideContainer}>
+        <Swiper
+          loop={false}
+          ref={swiperRef}
+          onIndexChanged={(index) => setActiveIndex(index)}
+        >
+          {swiperPage.map((page, index) => (
+            <View key={index} style={styles.slide}>
+              <Image
+                style={styles.image}
+                source={page.image}
+                contentFit="cover"
+              />
+              <Text style={styles.title}>{page.title}</Text>
+              <Text style={styles.description}>{page.description}</Text>
+            </View>
+          ))}
+        </Swiper>
+      </View>
+      <CustomButton
+        onPress={() =>
+          isLastSlide
+            ? router.push("/(auth)/sign-in")
+            : swiperRef.current?.scrollBy(1)
+        }
+        title={isLastSlide ? "Get started" : "Next"}
+        style={{ width: "90%" }}
+      />
+    </SafeAreaView>
   );
 };
 

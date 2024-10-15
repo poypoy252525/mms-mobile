@@ -3,13 +3,12 @@ import {
   requestForegroundPermissionsAsync,
 } from "expo-location";
 import { useFocusEffect } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useStore } from "../../stores/store";
 import HomeBottomSheet from "../_components/HomeBottomSheet/HomeBottomSheet";
 import Map from "../_components/Map";
-import { useStore } from "../../stores/store";
 
 const Home = () => {
   const death = useStore((state) => state.death);

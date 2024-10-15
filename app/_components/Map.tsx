@@ -1,30 +1,74 @@
 import Marker from "@/assets/images/marker-pin.png";
-import map from "@/constants/map.json";
 import MapLibreGL from "@maplibre/maplibre-react-native";
-import React, { useEffect } from "react";
+import axios, { AxiosError } from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useStore } from "../../stores/store";
+import DirectionLayer from "./MaplibreLayer/DirectionLayer";
+import ResidentialRouteLayer from "./MaplibreLayer/ResidentialRouteLayer";
+import LawnLayer from "./MaplibreLayer/LawnLayer";
+import BuildingLayer from "./MaplibreLayer/BuildingLayer";
+import ApartmentLayer from "./MaplibreLayer/ApartmentLayer";
+import ColumbaryLayer from "./MaplibreLayer/ColumbaryLayer";
+import WallLayer from "./MaplibreLayer/WallLayer";
 
 MapLibreGL.setAccessToken(null);
 
 // const apiKey = "7d1e7cd9-770c-4ae4-b4f9-895c8171210e";
-const styleUrl = `https://api.maptiler.com/maps/34a6b3c5-b4e5-4292-99ac-4431a8b1b7d3/style.json?key=AWxYqeit04pvjyks83vM`;
+const styleUrl = `https://api.maptiler.com/maps/608de5e8-9e8f-4899-b8ed-b319ac0ce0a4/style.json?key=AWxYqeit04pvjyks83vM`;
 
 interface Props {
   markPoint?: number[];
 }
 
 const Map = ({ markPoint }: Props) => {
-  const directions = useStore((state) => state.directions);
+  const setDestination = useStore((state) => state.setDestination);
+  const setDirections = useStore((state) => state.setDirections);
   const currentLocation = useStore((state) => state.currentLocation);
-  const cameraCoordinate = useStore((state) => state.cameraCoordinate);
   const destination = useStore((state) => state.destination);
-  const death = useStore((state) => state.death);
+  const mapRef = useRef<MapLibreGL.MapViewRef>(null);
+  const [profile, setProfile] = useState<string>("foot");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setDestination([121.145671, 14.732251]);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (!destination) return;
+      try {
+        const { data } = await axios.post(
+          `https://graphhopper-fx1s.onrender.com/route`,
+          JSON.stringify({
+            profile: "foot",
+            points: [
+              [currentLocation?.longitude, currentLocation?.latitude],
+              destination,
+            ],
+            points_encoded: false,
+          }),
+          {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+            params: {
+              key: "",
+            },
+          }
+        );
+        console.log(data);
+        setDirections(data);
+      } catch (error) {
+        if (error instanceof AxiosError) console.error(error.message);
+        console.error("error getting direction: ", error);
+        throw error;
+      }
+    })();
+  }, [destination]);
 
   return (
     <MapLibreGL.MapView
+      ref={mapRef}
       style={styles.map}
       pitchEnabled={true}
       logoEnabled={false}
@@ -38,48 +82,25 @@ const Map = ({ markPoint }: Props) => {
         androidPreferredFramesPerSecond={30}
       />
       {/* <MapLibreGL.Camera
-        // centerCoordinate={cameraCoordinate}
-        heading={directions?.paths[0].instructions[0].heading}
+        centerCoordinate={
+          currentLocation && [
+            currentLocation.longitude,
+            currentLocation.latitude,
+          ]
+        }
         animationDuration={1000}
         zoomLevel={18}
         pitch={60}
         minZoomLevel={17}
       /> */}
-      {directions && (
-        <MapLibreGL.ShapeSource
-          id="directions"
-          shape={{
-            type: "LineString",
-            coordinates: directions.paths[0].points.coordinates,
-          }}
-        >
-          <MapLibreGL.LineLayer
-            id="directionLayer"
-            style={{
-              lineWidth: 5,
-              lineColor: "blue",
-              lineOpacity: 0.7,
-              lineCap: "round",
-              lineJoin: "round",
-            }}
-          />
-        </MapLibreGL.ShapeSource>
-      )}
+      <ResidentialRouteLayer />
+      <LawnLayer />
+      <DirectionLayer />
+      <BuildingLayer />
+      <ApartmentLayer />
+      <ColumbaryLayer />
+      <WallLayer />
 
-      {/* <MapLibreGL.ShapeSource
-        id="buildings"
-        shape={map as GeoJSON.FeatureCollection}
-      >
-        <MapLibreGL.FillExtrusionLayer
-          id="buildingLayer"
-          style={{
-            fillExtrusionHeight: 0,
-            fillExtrusionBase: 0,
-            fillExtrusionColor: "#c3c3c3",
-            fillExtrusionOpacity: 1,
-          }}
-        />
-      </MapLibreGL.ShapeSource> */}
       {destination && (
         <MapLibreGL.ShapeSource
           id="pinSource"

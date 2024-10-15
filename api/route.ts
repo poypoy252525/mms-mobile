@@ -21,8 +21,8 @@ const getDirectionFromCurrentPosition = async <T>(
     return fetch.data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
-  return null;
 };
 
 export default getDirectionFromCurrentPosition;
