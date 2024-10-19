@@ -6,8 +6,7 @@ import { TabScreen, Tabs, TabsProvider } from "react-native-paper-tabs";
 
 const Profile = () => {
   const summary = [
-    { label: "Visits", value: 1 },
-    { label: "Plans", value: 2 },
+    { label: "Viewed", value: 1 },
     { label: "Records", value: 0 },
   ];
   const { user } = GoogleSignin.getCurrentUser()!;

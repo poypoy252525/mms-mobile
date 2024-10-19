@@ -11,6 +11,14 @@ import BuildingLayer from "./MaplibreLayer/BuildingLayer";
 import ApartmentLayer from "./MaplibreLayer/ApartmentLayer";
 import ColumbaryLayer from "./MaplibreLayer/ColumbaryLayer";
 import WallLayer from "./MaplibreLayer/WallLayer";
+import {
+  Accuracy,
+  LocationSubscription,
+  requestForegroundPermissionsAsync,
+  watchPositionAsync,
+} from "expo-location";
+import getDirectionFromCurrentPosition from "@/api/route";
+import { Directions } from "@/constants/Entity";
 
 MapLibreGL.setAccessToken(null);
 
@@ -24,6 +32,7 @@ interface Props {
 const Map = ({ markPoint }: Props) => {
   const setDestination = useStore((state) => state.setDestination);
   const setDirections = useStore((state) => state.setDirections);
+  const setCurrentLocation = useStore((state) => state.setCurrentLocation);
   const currentLocation = useStore((state) => state.currentLocation);
   const destination = useStore((state) => state.destination);
   const mapRef = useRef<MapLibreGL.MapViewRef>(null);
@@ -34,36 +43,51 @@ const Map = ({ markPoint }: Props) => {
   }, []);
 
   useEffect(() => {
+    if (!destination) return;
+    let locationSubscription: LocationSubscription;
+    let isMounted = true; // To track if the component is still mounted
+
     (async () => {
-      if (!destination) return;
-      try {
-        const { data } = await axios.post(
-          `https://graphhopper-fx1s.onrender.com/route`,
-          JSON.stringify({
-            profile,
-            points: [
-              [currentLocation?.longitude, currentLocation?.latitude],
-              destination,
-            ],
-            points_encoded: false,
-          }),
-          {
-            headers: {
-              "Content-Type": `application/json`,
-            },
-            params: {
-              key: "",
-            },
-          }
-        );
-        console.log(data);
-        setDirections(data);
-      } catch (error) {
-        if (error instanceof AxiosError) console.error(error.message);
-        console.error("error getting direction: ", error);
-        throw error;
+      const { status } = await requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("access denied");
+        return;
       }
+
+      locationSubscription = await watchPositionAsync(
+        {
+          accuracy: Accuracy.Highest,
+          distanceInterval: 10,
+          timeInterval: 5000,
+        },
+        async (position) => {
+          if (!isMounted) return; // Ensure the component is still mounted before proceeding
+
+          const { latitude, longitude } = position.coords;
+          const currentLocation = { latitude, longitude };
+
+          if (!destination) {
+            setDestination([121.145671, 14.732251]);
+            return;
+          }
+
+          setCurrentLocation(currentLocation);
+
+          const directions = await getDirectionFromCurrentPosition<Directions>(
+            currentLocation,
+            { latitude: destination[1], longitude: destination[0] }, // Make sure these values are correct
+            "foot"
+          );
+          if (isMounted) setDirections(directions); // Set directions only if mounted
+        }
+      );
     })();
+
+    // Cleanup on unmount
+    return () => {
+      isMounted = false; // Mark as unmounted
+      if (locationSubscription) locationSubscription.remove(); // Remove the subscription
+    };
   }, [destination]);
 
   return (

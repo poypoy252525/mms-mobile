@@ -1,6 +1,8 @@
 import {
   getCurrentPositionAsync,
   requestForegroundPermissionsAsync,
+  watchPositionAsync,
+  watchHeadingAsync,
 } from "expo-location";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
