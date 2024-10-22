@@ -21,7 +21,7 @@ const DirectionLayer = () => {
               lineCap: "round",
               lineJoin: "round",
             }}
-            belowLayerID="buildingLayer"
+            // belowLayerID="buildingLayer"
           />
           <MapLibreGL.LineLayer
             id="directionLayer"
@@ -32,7 +32,7 @@ const DirectionLayer = () => {
               lineCap: "round",
               lineJoin: "round",
             }}
-            belowLayerID="buildingLayer"
+            // belowLayerID="buildingLayer"
           />
         </MapLibreGL.ShapeSource>
       </>

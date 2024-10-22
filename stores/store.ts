@@ -3,8 +3,8 @@ import { Notification } from "expo-notifications";
 import { create } from "zustand";
 
 interface Store {
-  death: Death | undefined;
-  setSelectedDeath: (death: Death) => void;
+  death: Deceased | undefined;
+  setSelectedDeath: (death: Deceased | undefined) => void;
   directions: Directions | undefined;
   setDirections: (directions: Directions | undefined) => void;
   currentLocation: { latitude: number; longitude: number } | undefined;
@@ -23,7 +23,7 @@ interface Store {
 
 export const useStore = create<Store>((set) => ({
   death: undefined,
-  setSelectedDeath: (death: Death) => set((state) => ({ ...state, death })),
+  setSelectedDeath: (death) => set((state) => ({ ...state, death })),
   directions: undefined,
   setDirections: (directions: Directions | undefined) =>
     set((state) => ({ ...state, directions })),

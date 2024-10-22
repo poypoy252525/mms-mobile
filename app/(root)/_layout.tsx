@@ -3,6 +3,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Image } from "expo-image";
 import { router, Tabs } from "expo-router";
+import { useRef } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
 

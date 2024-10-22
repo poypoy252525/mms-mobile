@@ -12,7 +12,14 @@ const LawnLayer = () => {
         id="lawnLayer"
         style={{
           fillColor: "lightgreen",
-          fillOutlineColor: "gray",
+        }}
+      />
+      <Maplibre.LineLayer
+        id="lawnLineLayer"
+        style={{
+          lineColor: "black",
+          lineWidth: 1,
+          lineOpacity: 0.2,
         }}
       />
     </Maplibre.ShapeSource>

@@ -1,16 +1,15 @@
 import {
   getCurrentPositionAsync,
+  LocationAccuracy,
   requestForegroundPermissionsAsync,
-  watchPositionAsync,
-  watchHeadingAsync,
 } from "expo-location";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useStore } from "../../stores/store";
-import HomeBottomSheet from "../_components/HomeBottomSheet/HomeBottomSheet";
 import Map from "../_components/Map";
+import MapBottomSheet from "../_components/MapBottomSheet/MapBottomSheet";
 
 const Home = () => {
   const death = useStore((state) => state.death);
@@ -22,10 +21,14 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const { granted } = await requestForegroundPermissionsAsync();
+      const { granted, status } = await requestForegroundPermissionsAsync();
+      if (status !== "granted") return;
       if (granted) {
-        const currentLocation = await getCurrentPositionAsync();
+        const currentLocation = await getCurrentPositionAsync({
+          accuracy: LocationAccuracy.High,
+        });
         setCurrentLocation(currentLocation.coords);
+        console.log(currentLocation.coords);
       }
     })();
   }, []);
@@ -53,10 +56,9 @@ const Home = () => {
     <GestureHandlerRootView>
       <View style={{ flex: 1 }}>
         <View style={{ display: isVisible ? "flex" : "none", flex: 1 }}>
-          <Map markPoint={destination} />
+          <Map />
         </View>
-
-        {death && isVisible && <HomeBottomSheet death={death} />}
+        {death && isVisible && <MapBottomSheet />}
       </View>
     </GestureHandlerRootView>
   );

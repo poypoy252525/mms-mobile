@@ -10,7 +10,7 @@ const getDirectionFromCurrentPosition = async <T>(
   if (!destination || !currentLocation) return;
   try {
     const { data } = await axios.post<T>(
-      `http://192.168.100.7:8989/route`,
+      `https://graphhopper.com/api/1/route`,
       JSON.stringify({
         profile,
         points: [
@@ -22,6 +22,9 @@ const getDirectionFromCurrentPosition = async <T>(
       {
         headers: {
           "Content-Type": `application/json`,
+        },
+        params: {
+          key: "c7a05e01-fffd-4ec1-bdd5-b623c5fd2058",
         },
       }
     );

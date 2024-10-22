@@ -1,32 +1,28 @@
 import BurialTypeCard from "@/app/_components/BurialTypeCard";
-import { baseURL } from "@/constants/BaseURL";
-import { Death } from "@/constants/Entity";
-import axios from "axios";
 import { Href, router } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { ScrollView, View } from "react-native";
 
 const burialType = [
   {
     title: "Lawn Lot",
-    image: "https://picsum.photos/700",
-    path: "/(root)/discover/lawn" as Href,
+    image: require("@/assets/images/lawn.png"),
+    path: "/(root)/discover/LAWN_LOT" as Href,
   },
   {
     title: "Family Lot",
-    image: "https://picsum.photos/700",
-    path: "/(root)/discover/family" as Href,
+    image: require("@/assets/images/family.png"),
+    path: "/(root)/discover/FAMILY_LOT" as Href,
   },
   {
     title: "Apartment Lot",
-    image: "https://picsum.photos/700",
-    path: "/(root)/discover/apartment" as Href,
+    image: require("@/assets/images/apartment.png"),
+    path: "/(root)/discover/APARTMENT" as Href,
   },
   {
     title: "Columbary Lot",
-    image: "https://picsum.photos/700",
-    path: "/(root)/discover/columbary" as Href,
+    image: require("@/assets/images/columbarium.png"),
+    path: "/(root)/discover/COLUMBARIUM" as Href,
   },
 ];
 

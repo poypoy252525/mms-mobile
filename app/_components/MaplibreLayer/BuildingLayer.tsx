@@ -12,9 +12,13 @@ const BuildingLayer = () => {
         id="buildingLayer"
         style={{
           fillExtrusionBase: 0,
-          fillExtrusionHeight: 3,
-          fillExtrusionColor: "pink",
+          fillExtrusionHeight: 0,
+          fillExtrusionColor: "#eeeee4",
         }}
+      />
+      <Maplibre.LineLayer
+        id="buildingLineLayer"
+        style={{ lineColor: "lightgray", lineWidth: 1, lineOpacity: 1 }}
       />
     </Maplibre.ShapeSource>
   );

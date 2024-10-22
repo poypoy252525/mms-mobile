@@ -12,9 +12,13 @@ const ColumbaryLayer = () => {
         id="columbaryLayer"
         style={{
           fillExtrusionBase: 0,
-          fillExtrusionHeight: 4.5,
+          fillExtrusionHeight: 0,
           fillExtrusionColor: "#88cdcf",
         }}
+      />
+      <Maplibre.LineLayer
+        id="columbaryLineLayer"
+        style={{ lineWidth: 1, lineColor: "black", lineOpacity: 0.2 }}
       />
     </Maplibre.ShapeSource>
   );

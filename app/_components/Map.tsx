@@ -1,94 +1,23 @@
 import Marker from "@/assets/images/marker-pin.png";
 import MapLibreGL from "@maplibre/maplibre-react-native";
-import axios, { AxiosError } from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useStore } from "../../stores/store";
-import DirectionLayer from "./MaplibreLayer/DirectionLayer";
-import ResidentialRouteLayer from "./MaplibreLayer/ResidentialRouteLayer";
-import LawnLayer from "./MaplibreLayer/LawnLayer";
-import BuildingLayer from "./MaplibreLayer/BuildingLayer";
 import ApartmentLayer from "./MaplibreLayer/ApartmentLayer";
+import BuildingLayer from "./MaplibreLayer/BuildingLayer";
 import ColumbaryLayer from "./MaplibreLayer/ColumbaryLayer";
-import WallLayer from "./MaplibreLayer/WallLayer";
-import {
-  Accuracy,
-  LocationSubscription,
-  requestForegroundPermissionsAsync,
-  watchPositionAsync,
-} from "expo-location";
-import getDirectionFromCurrentPosition from "@/api/route";
-import { Directions } from "@/constants/Entity";
+import DirectionLayer from "./MaplibreLayer/DirectionLayer";
+import LawnLayer from "./MaplibreLayer/LawnLayer";
+import ResidentialRouteLayer from "./MaplibreLayer/ResidentialRouteLayer";
 
 MapLibreGL.setAccessToken(null);
 
 // const apiKey = "7d1e7cd9-770c-4ae4-b4f9-895c8171210e";
 const styleUrl = `https://api.maptiler.com/maps/608de5e8-9e8f-4899-b8ed-b319ac0ce0a4/style.json?key=AWxYqeit04pvjyks83vM`;
 
-interface Props {
-  markPoint?: number[];
-}
-
-const Map = ({ markPoint }: Props) => {
-  const setDestination = useStore((state) => state.setDestination);
-  const setDirections = useStore((state) => state.setDirections);
-  const setCurrentLocation = useStore((state) => state.setCurrentLocation);
-  const currentLocation = useStore((state) => state.currentLocation);
+const Map = () => {
   const destination = useStore((state) => state.destination);
   const mapRef = useRef<MapLibreGL.MapViewRef>(null);
-  const [profile, setProfile] = useState<string>("foot");
-
-  useEffect(() => {
-    setDestination([121.145671, 14.732251]);
-  }, []);
-
-  useEffect(() => {
-    if (!destination) return;
-    let locationSubscription: LocationSubscription;
-    let isMounted = true; // To track if the component is still mounted
-
-    (async () => {
-      const { status } = await requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("access denied");
-        return;
-      }
-
-      locationSubscription = await watchPositionAsync(
-        {
-          accuracy: Accuracy.Highest,
-          distanceInterval: 10,
-          timeInterval: 5000,
-        },
-        async (position) => {
-          if (!isMounted) return; // Ensure the component is still mounted before proceeding
-
-          const { latitude, longitude } = position.coords;
-          const currentLocation = { latitude, longitude };
-
-          if (!destination) {
-            setDestination([121.145671, 14.732251]);
-            return;
-          }
-
-          setCurrentLocation(currentLocation);
-
-          const directions = await getDirectionFromCurrentPosition<Directions>(
-            currentLocation,
-            { latitude: destination[1], longitude: destination[0] }, // Make sure these values are correct
-            "foot"
-          );
-          if (isMounted) setDirections(directions); // Set directions only if mounted
-        }
-      );
-    })();
-
-    // Cleanup on unmount
-    return () => {
-      isMounted = false; // Mark as unmounted
-      if (locationSubscription) locationSubscription.remove(); // Remove the subscription
-    };
-  }, [destination]);
 
   return (
     <MapLibreGL.MapView
@@ -101,8 +30,8 @@ const Map = ({ markPoint }: Props) => {
       styleURL={styleUrl}
     >
       <MapLibreGL.UserLocation
-        androidRenderMode="compass"
-        renderMode="native"
+        androidRenderMode="normal"
+        renderMode="normal"
         androidPreferredFramesPerSecond={30}
       />
       {/* <MapLibreGL.Camera
@@ -119,11 +48,11 @@ const Map = ({ markPoint }: Props) => {
       /> */}
       <ResidentialRouteLayer />
       <LawnLayer />
-      <DirectionLayer />
       <BuildingLayer />
       <ApartmentLayer />
       <ColumbaryLayer />
-      <WallLayer />
+      <DirectionLayer />
+      {/* <WallLayer /> */}
 
       {destination && (
         <MapLibreGL.ShapeSource
@@ -175,3 +104,55 @@ const styles = StyleSheet.create({
 });
 
 export default Map;
+
+// useEffect(() => {
+//   setDestination([121.145671, 14.732251]);
+// }, []);
+
+// useEffect(() => {
+//   if (!destination) return;
+//   let locationSubscription: LocationSubscription;
+//   let isMounted = true; // To track if the component is still mounted
+
+//   (async () => {
+//     const { status } = await requestForegroundPermissionsAsync();
+//     if (status !== "granted") {
+//       console.log("access denied");
+//       return;
+//     }
+
+//     locationSubscription = await watchPositionAsync(
+//       {
+//         accuracy: Accuracy.Highest,
+//         distanceInterval: 10,
+//         timeInterval: 5000,
+//       },
+//       async (position) => {
+//         if (!isMounted) return; // Ensure the component is still mounted before proceeding
+
+//         const { latitude, longitude } = position.coords;
+//         const currentLocation = { latitude, longitude };
+
+//         if (!destination) {
+//           setDestination([121.145671, 14.732251]);
+//           return;
+//         }
+
+//         setCurrentLocation(currentLocation);
+
+//         const directions = await getDirectionFromCurrentPosition<Directions>(
+//           currentLocation,
+//           { latitude: destination[1], longitude: destination[0] }, // Make sure these values are correct
+//           "foot"
+//         );
+//         if (isMounted) setDirections(directions); // Set directions only if mounted
+//       }
+//     );
+//   })();
+
+//   // Cleanup on unmount
+//   return () => {
+//     isMounted = false; // Mark as unmounted
+//     if (locationSubscription) locationSubscription.remove(); // Remove the subscription
+//   };
+// }, [destination]);

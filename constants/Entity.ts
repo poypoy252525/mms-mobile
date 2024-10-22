@@ -1,20 +1,11 @@
-interface Death {
+interface Deceased {
   id: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  dateOfBirth: Date;
-  dateOfDeath: Date;
-  dateCreated: Date;
-  dateUpdated?: Date | null; // optional
-  causeOfDeath: string;
-  nextOfKinName: string;
-  nextOfKinRelationship: string;
-  nextOfKinContact: string;
+  name: string;
+  createdAt: Date;
+  updatedAt?: Date | null; // optional
   status: Status;
   burialId: string;
   burial: Burial;
-  visits: Visit[];
 }
 
 interface Burial {
@@ -22,9 +13,9 @@ interface Burial {
   block: string;
   row: string;
   plotNumber: string;
-  coordinates?: string | null; // Optional field
+  coordinates?: number[]; // Optional field
   isVacant: boolean;
-  deaths: Death[]; // Array of Death objects
+  deaths: Deceased[]; // Array of Death objects
 }
 
 interface User {
@@ -42,7 +33,7 @@ interface Visit {
   id: string;
   user: User; // Reference to a User object
   userId: string;
-  death: Death; // Reference to a Death object
+  death: Deceased; // Reference to a Death object
   deathId: string;
 }
 
@@ -81,4 +72,4 @@ export interface Directions {
   paths: Path[];
 }
 
-export { Burial, Death, Status, User, Visit };
+export { Burial, Deceased as Death, Status, User, Visit };

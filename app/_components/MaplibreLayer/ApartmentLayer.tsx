@@ -13,8 +13,12 @@ const ApartmentLayer = () => {
         style={{
           fillExtrusionBase: 0,
           fillExtrusionColor: "#e9e9e9",
-          fillExtrusionHeight: 4.5,
+          fillExtrusionHeight: 0,
         }}
+      />
+      <Maplibre.LineLayer
+        id="apartmentLineLayer"
+        style={{ lineWidth: 1, lineColor: "lightgray" }}
       />
     </Maplibre.ShapeSource>
   );
