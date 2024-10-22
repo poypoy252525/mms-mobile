@@ -1,18 +1,40 @@
+import getDirection from "@/api/route";
 import { baseURL } from "@/constants/BaseURL";
+import { Directions } from "@/constants/Entity";
 import { useStore } from "@/stores/store";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Icon, Text } from "react-native-paper";
+import { Button, Icon, List, Text } from "react-native-paper";
+import DirectionButton from "./DirectionButton";
 
 const MapBottomSheet = () => {
   const [deceased, setDeceased] = useState<Deceased>();
   const setSelectedDeceased = useStore((state) => state.setSelectedDeath);
   const setDestination = useStore((state) => state.setDestination);
+  const setDirection = useStore((state) => state.setDirections);
+  const setCameraCoordinate = useStore((state) => state.setCameraCoordinate);
+  const currentLocation = useStore((state) => state.currentLocation);
+
   const bottomSheetRef = useRef<BottomSheet>(null);
   const death = useStore((state) => state.death);
+
+  const list: { label: string; icon: string }[] = [
+    {
+      label: `Block ${deceased?.burial?.block}`,
+      icon: "toy-brick-marker-outline",
+    },
+    {
+      label: `Lot ${deceased?.burial?.row}`,
+      icon: "map-marker",
+    },
+    {
+      label: `${deceased?.burial?.coordinates.join(", ")}`,
+      icon: "map-marker-outline",
+    },
+  ];
 
   useEffect(() => {
     const fetchDeceased = async () => {
@@ -44,16 +66,21 @@ const MapBottomSheet = () => {
   const handleClose = () => {
     setSelectedDeceased(undefined);
     setDestination(undefined);
+    setDirection(undefined);
+    if (currentLocation)
+      setCameraCoordinate([
+        currentLocation?.longitude,
+        currentLocation?.latitude,
+      ]);
   };
 
   return (
     <BottomSheet
-      enablePanDownToClose
       ref={bottomSheetRef}
       onClose={handleClose}
       animateOnMount
       index={1}
-      snapPoints={["10%", "40%", "100%"]}
+      snapPoints={["10%", "40%", "90%"]}
       style={styles.bottomSheet}
       handleIndicatorStyle={{ backgroundColor: "lightgray" }}
     >
@@ -67,10 +94,32 @@ const MapBottomSheet = () => {
           }}
         >
           <Text style={{ fontSize: 24 }}>{deceased?.name}</Text>
+          <Button onPress={() => bottomSheetRef.current?.close()}>Close</Button>
         </View>
-        <Button mode="contained" icon="directions" onPress={() => {}}>
-          Directions
-        </Button>
+        <DirectionButton />
+        <View>
+          <List.Section>
+            <List.Subheader>Owner</List.Subheader>
+            <List.Item
+              style={{ paddingHorizontal: 24 }}
+              left={() => <List.Icon icon="account" />}
+              title={`${deceased?.owner?.name}`}
+              onPress={() => {}}
+            />
+          </List.Section>
+          <List.Section>
+            <List.Subheader>Burial info</List.Subheader>
+            {list.map((item, index) => (
+              <List.Item
+                key={index}
+                style={{ paddingHorizontal: 24 }}
+                left={() => <List.Icon icon={item.icon} />}
+                title={item.label}
+                onPress={() => {}}
+              />
+            ))}
+          </List.Section>
+        </View>
       </BottomSheetView>
     </BottomSheet>
   );

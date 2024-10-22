@@ -1,6 +1,6 @@
 import { fetchDeceased } from "@/api/fetchDeceased";
 import { useStore } from "@/stores/store";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, ScrollView, View } from "react-native";
 import { ActivityIndicator, List, Text, Searchbar } from "react-native-paper";
@@ -43,6 +43,7 @@ const index = () => {
     console.log(destination);
     setDestination(deceased.burial?.coordinates.reverse());
     setSelectedDeceased(deceased);
+    router.navigate(`/(root)`);
   };
 
   const handleRefresh = async () => {

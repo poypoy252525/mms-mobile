@@ -1,7 +1,7 @@
 import { Coordinate } from "@/types/coordinates";
 import axios, { AxiosError } from "axios";
 
-const getDirectionFromCurrentPosition = async <T>(
+const getDirection = async <T>(
   currentLocation: Coordinate,
   destination: Coordinate,
   profile: "car" | "foot"
@@ -36,4 +36,4 @@ const getDirectionFromCurrentPosition = async <T>(
   }
 };
 
-export default getDirectionFromCurrentPosition;
+export default getDirection;

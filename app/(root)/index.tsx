@@ -35,7 +35,11 @@ const Home = () => {
 
   useEffect(() => {
     if (destination) setCameraCoordinate(destination);
-    else if (currentLocation) setCameraCoordinate([121.14664999, 14.732473283]);
+    else if (currentLocation)
+      setCameraCoordinate([
+        currentLocation.longitude,
+        currentLocation.latitude,
+      ]);
   }, [destination, currentLocation]);
 
   useFocusEffect(

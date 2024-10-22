@@ -9,6 +9,7 @@ import ColumbaryLayer from "./MaplibreLayer/ColumbaryLayer";
 import DirectionLayer from "./MaplibreLayer/DirectionLayer";
 import LawnLayer from "./MaplibreLayer/LawnLayer";
 import ResidentialRouteLayer from "./MaplibreLayer/ResidentialRouteLayer";
+import Camera from "./MaplibreLayer/Camera";
 
 MapLibreGL.setAccessToken(null);
 
@@ -34,18 +35,7 @@ const Map = () => {
         renderMode="normal"
         androidPreferredFramesPerSecond={30}
       />
-      {/* <MapLibreGL.Camera
-        centerCoordinate={
-          currentLocation && [
-            currentLocation.longitude,
-            currentLocation.latitude,
-          ]
-        }
-        animationDuration={1000}
-        zoomLevel={18}
-        pitch={60}
-        minZoomLevel={17}
-      /> */}
+      <Camera />
       <ResidentialRouteLayer />
       <LawnLayer />
       <BuildingLayer />
