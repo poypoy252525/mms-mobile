@@ -7,7 +7,14 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Icon, List, Text } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Button,
+  Icon,
+  IconButton,
+  List,
+  Text,
+} from "react-native-paper";
 import DirectionButton from "./DirectionButton";
 
 const MapBottomSheet = () => {
@@ -79,55 +86,67 @@ const MapBottomSheet = () => {
       ]);
   };
 
-  if (loading) return;
-
   return (
     <BottomSheet
       ref={bottomSheetRef}
       onClose={handleClose}
       animateOnMount
       index={1}
-      snapPoints={["10%", "40%", "90%"]}
+      snapPoints={["10.5%", "40%", "90%"]}
       style={styles.bottomSheet}
       handleIndicatorStyle={{ backgroundColor: "lightgray" }}
     >
-      <BottomSheetView style={{ paddingHorizontal: 12, rowGap: 12 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 12,
-          }}
+      {loading ? (
+        <BottomSheetView
+        // style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text style={{ fontSize: 24 }}>{deceased?.name}</Text>
-          <Button onPress={() => bottomSheetRef.current?.close()}>Close</Button>
-        </View>
-        <DirectionButton />
-        <View>
-          <List.Section>
-            <List.Subheader>Owner</List.Subheader>
-            <List.Item
-              style={{ paddingHorizontal: 24 }}
-              left={() => <List.Icon icon="account" />}
-              title={`${deceased?.owner?.name}`}
-              onPress={() => {}}
+          <ActivityIndicator style={{ marginTop: 24 }} />
+        </BottomSheetView>
+      ) : (
+        <BottomSheetView style={{ paddingHorizontal: 12, rowGap: 12 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 24, marginLeft: 12 }}>
+              {deceased?.name}
+            </Text>
+            <IconButton
+              icon="close"
+              size={16}
+              onPress={() => bottomSheetRef.current?.close()}
+              mode="contained"
             />
-          </List.Section>
-          <List.Section>
-            <List.Subheader>Burial info</List.Subheader>
-            {list.map((item, index) => (
+          </View>
+          <DirectionButton />
+          <View>
+            <List.Section>
+              <List.Subheader>Owner</List.Subheader>
               <List.Item
-                key={index}
                 style={{ paddingHorizontal: 24 }}
-                left={() => <List.Icon icon={item.icon} />}
-                title={item.label}
+                left={() => <List.Icon icon="account" />}
+                title={`${deceased?.owner?.name}`}
                 onPress={() => {}}
               />
-            ))}
-          </List.Section>
-        </View>
-      </BottomSheetView>
+            </List.Section>
+            <List.Section>
+              <List.Subheader>Burial info</List.Subheader>
+              {list.map((item, index) => (
+                <List.Item
+                  key={index}
+                  style={{ paddingHorizontal: 24 }}
+                  left={() => <List.Icon icon={item.icon} />}
+                  title={item.label}
+                  onPress={() => {}}
+                />
+              ))}
+            </List.Section>
+          </View>
+        </BottomSheetView>
+      )}
     </BottomSheet>
   );
 };
