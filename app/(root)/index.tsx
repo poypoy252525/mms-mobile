@@ -34,7 +34,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (destination) setCameraCoordinate(destination);
+    if (destination)
+      setCameraCoordinate([destination.longitude, destination.latitude]);
     else if (currentLocation)
       setCameraCoordinate([
         currentLocation.longitude,

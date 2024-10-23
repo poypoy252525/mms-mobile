@@ -23,7 +23,7 @@ const DirectionButton = () => {
           setLoading(true);
           const direction = await getDirection(
             currentLocation,
-            { latitude: destination[1], longitude: destination[0] },
+            destination,
             "foot"
           );
           setDirections(direction as Directions);

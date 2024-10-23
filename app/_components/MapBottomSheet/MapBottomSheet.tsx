@@ -21,6 +21,8 @@ const MapBottomSheet = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const death = useStore((state) => state.death);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const list: { label: string; icon: string }[] = [
     {
       label: `Block ${deceased?.burial?.block}`,
@@ -40,6 +42,7 @@ const MapBottomSheet = () => {
     const fetchDeceased = async () => {
       try {
         if (!death) return;
+        setLoading(true);
         await GoogleSignin.signInSilently();
         const { idToken } = GoogleSignin.getCurrentUser()!;
         const { data } = await axios.get(
@@ -57,6 +60,8 @@ const MapBottomSheet = () => {
           error
         );
         throw error;
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -73,6 +78,8 @@ const MapBottomSheet = () => {
         currentLocation?.latitude,
       ]);
   };
+
+  if (loading) return;
 
   return (
     <BottomSheet

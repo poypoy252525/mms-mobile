@@ -40,8 +40,14 @@ const index = () => {
   }, [burialType, navigation]);
 
   const handlePress = (deceased: Deceased) => {
-    console.log(destination);
-    setDestination(deceased.burial?.coordinates.reverse());
+    if (!deceased.burial) {
+      console.log("Burial is undefined");
+      return;
+    }
+    setDestination({
+      latitude: deceased.burial?.coordinates[0],
+      longitude: deceased.burial?.coordinates[1],
+    });
     setSelectedDeceased(deceased);
     router.navigate(`/(root)`);
   };

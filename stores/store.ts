@@ -1,4 +1,5 @@
 import { Death, Directions } from "@/constants/Entity";
+import { Coordinate } from "@/types/coordinates";
 import { Notification } from "expo-notifications";
 import { create } from "zustand";
 
@@ -14,8 +15,8 @@ interface Store {
   }) => void;
   cameraCoordinate: number[];
   setCameraCoordinate: (coordinates: number[]) => void;
-  destination: number[] | undefined;
-  setDestination: (destionation: number[] | undefined) => void;
+  destination: Coordinate | undefined;
+  setDestination: (destionation: Coordinate | undefined) => void;
   notification: Notification | undefined;
   setNotification: (notification: Notification | undefined) => void;
   reset: () => void;
@@ -34,7 +35,7 @@ export const useStore = create<Store>((set) => ({
   setCameraCoordinate: (cameraCoordinate: number[]) =>
     set((state) => ({ ...state, cameraCoordinate })),
   destination: undefined,
-  setDestination: (destination: number[] | undefined) =>
+  setDestination: (destination: Coordinate | undefined) =>
     set((state) => ({ ...state, destination })),
   notification: undefined,
   setNotification: (notification: Notification | undefined) =>

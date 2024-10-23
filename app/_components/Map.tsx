@@ -57,7 +57,7 @@ const Map = () => {
                 },
                 geometry: {
                   type: "Point",
-                  coordinates: destination,
+                  coordinates: [destination.longitude, destination.latitude],
                 },
               },
             ],
