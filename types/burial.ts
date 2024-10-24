@@ -2,7 +2,10 @@ type Burial = {
   id: string;
   block: string;
   row: string;
-  coordinates: number[];
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
   isVacant: boolean;
   type: BurialType;
   ownerId: string;

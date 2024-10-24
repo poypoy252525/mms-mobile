@@ -56,7 +56,7 @@ const signIn = async (
         // if (error instanceof AxiosError) console.log(error.response?.data);
       }
 
-      router.push("/(root)");
+      router.replace("/(root)");
     } else {
       // sign in was cancelled by user
     }

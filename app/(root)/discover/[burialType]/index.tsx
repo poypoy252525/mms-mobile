@@ -14,7 +14,6 @@ const index = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const setSelectedDeceased = useStore((state) => state.setSelectedDeath);
   const setDestination = useStore((state) => state.setDestination);
-  const destination = useStore((state) => state.destination);
 
   useEffect(() => {
     (async () => {
@@ -35,7 +34,7 @@ const index = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <View style={{ marginVertical: 8, flex: 1 }}></View>,
+      headerShown: false,
     });
   }, [burialType, navigation]);
 
@@ -44,10 +43,7 @@ const index = () => {
       console.log("Burial is undefined");
       return;
     }
-    setDestination({
-      latitude: deceased.burial?.coordinates[0],
-      longitude: deceased.burial?.coordinates[1],
-    });
+    setDestination(deceased.burial.coordinates);
     setSelectedDeceased(deceased);
     router.navigate(`/(root)`);
   };

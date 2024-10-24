@@ -6,22 +6,22 @@ import { ScrollView, View } from "react-native";
 const burialType = [
   {
     title: "Lawn Lot",
-    image: require("@/assets/images/lawn.png"),
+    image: require("@/assets/images/lawn.jpg"),
     path: "/(root)/discover/LAWN_LOT" as Href,
   },
   {
     title: "Family Lot",
-    image: require("@/assets/images/family.png"),
+    image: require("@/assets/images/family.jpg"),
     path: "/(root)/discover/FAMILY_LOT" as Href,
   },
   {
     title: "Apartment Lot",
-    image: require("@/assets/images/apartment.png"),
+    image: require("@/assets/images/apartment.jpg"),
     path: "/(root)/discover/APARTMENT" as Href,
   },
   {
     title: "Columbary Lot",
-    image: require("@/assets/images/columbarium.png"),
+    image: require("@/assets/images/columbarium.jpg"),
     path: "/(root)/discover/COLUMBARIUM" as Href,
   },
 ];

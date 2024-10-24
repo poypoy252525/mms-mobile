@@ -40,7 +40,7 @@ const MapBottomSheet = () => {
       icon: "map-marker",
     },
     {
-      label: `${deceased?.burial?.coordinates.join(", ")}`,
+      label: `${deceased?.burial?.coordinates.latitude}, ${deceased?.burial?.coordinates.longitude}`,
       icon: "map-marker-outline",
     },
   ];
@@ -50,8 +50,7 @@ const MapBottomSheet = () => {
       try {
         if (!death) return;
         setLoading(true);
-        await GoogleSignin.signInSilently();
-        const { idToken } = GoogleSignin.getCurrentUser()!;
+        const { idToken } = await GoogleSignin.getTokens();
         const { data } = await axios.get(
           `${baseURL}/api/deceased/${death.id}`,
           {

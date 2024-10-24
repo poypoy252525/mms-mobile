@@ -3,12 +3,22 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Image } from "expo-image";
 import { router, Tabs } from "expo-router";
-import { useRef } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
 
+GoogleSignin.configure({
+  webClientId:
+    "574017815971-irdgco7gesi6t214h9i8dejgrd9ldn21.apps.googleusercontent.com",
+});
+
 const Layout = () => {
   const reset = useStore((state) => state.reset);
+
+  if (GoogleSignin.hasPreviousSignIn()) {
+    (async () => {
+      await GoogleSignin.signInSilently();
+    })();
+  }
   return (
     <Tabs
       screenOptions={{
@@ -59,9 +69,12 @@ const Layout = () => {
             <Button
               mode="text"
               onPress={async () => {
+                // const { idToken } = await GoogleSignin.getTokens();
+                // await GoogleSignin.clearCachedAccessToken(idToken || "");
+                // await GoogleSignin.revokeAccess();
                 await GoogleSignin.signOut();
                 reset();
-                router.push("/(auth)/sign-in");
+                router.replace("/(auth)/sign-in");
               }}
             >
               Logout

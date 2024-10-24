@@ -10,6 +10,7 @@ import DirectionLayer from "./MaplibreLayer/DirectionLayer";
 import LawnLayer from "./MaplibreLayer/LawnLayer";
 import ResidentialRouteLayer from "./MaplibreLayer/ResidentialRouteLayer";
 import Camera from "./MaplibreLayer/Camera";
+import UserLocation from "./MaplibreLayer/UserLocation";
 
 MapLibreGL.setAccessToken(null);
 
@@ -30,11 +31,6 @@ const Map = () => {
       compassViewPosition={2}
       styleURL={styleUrl}
     >
-      <MapLibreGL.UserLocation
-        androidRenderMode="normal"
-        renderMode="normal"
-        androidPreferredFramesPerSecond={30}
-      />
       <Camera />
       <ResidentialRouteLayer />
       <LawnLayer />
@@ -75,6 +71,7 @@ const Map = () => {
           />
         </MapLibreGL.ShapeSource>
       )}
+      <UserLocation />
     </MapLibreGL.MapView>
   );
 };

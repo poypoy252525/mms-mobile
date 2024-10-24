@@ -10,6 +10,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useStore } from "../../stores/store";
 import Map from "../_components/Map";
 import MapBottomSheet from "../_components/MapBottomSheet/MapBottomSheet";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const Home = () => {
   const death = useStore((state) => state.death);
@@ -25,7 +26,7 @@ const Home = () => {
       if (status !== "granted") return;
       if (granted) {
         const currentLocation = await getCurrentPositionAsync({
-          accuracy: LocationAccuracy.High,
+          accuracy: LocationAccuracy.Highest,
         });
         setCurrentLocation(currentLocation.coords);
         console.log(currentLocation.coords);
