@@ -4,6 +4,26 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, ScrollView, View } from "react-native";
 import { ActivityIndicator, List, Text, Searchbar } from "react-native-paper";
+import { NativeStackNavigationOptions } from "react-native-screens/lib/typescript/native-stack/types";
+
+const getBurialTypeName = (burialType: string): string => {
+  let name = "";
+  switch (burialType) {
+    case "APARTMENT":
+      name = "Apartment";
+      break;
+    case "LAWN_LOT":
+      name = "Lawn";
+      break;
+    case "FAMILY_LOT":
+      name = "Family";
+      break;
+    case "COLUMBARIUM":
+      name = "Columbarium";
+      break;
+  }
+  return name;
+};
 
 const index = () => {
   const { burialType } = useLocalSearchParams();
@@ -34,8 +54,9 @@ const index = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerShown: false,
-    });
+      headerShown: true,
+      headerTitle: getBurialTypeName(burialType as string),
+    } as NativeStackNavigationOptions);
   }, [burialType, navigation]);
 
   const handlePress = (deceased: Deceased) => {

@@ -9,6 +9,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 import CustomButton from "../_components/CustomButton";
+import { Button } from "react-native-paper";
 
 const swiperPage = [
   {
@@ -63,15 +64,17 @@ const index = () => {
           ))}
         </Swiper>
       </View>
-      <CustomButton
+      <Button
+        mode="contained"
         onPress={() =>
           isLastSlide
             ? router.push("/(auth)/sign-in")
             : swiperRef.current?.scrollBy(1)
         }
-        title={isLastSlide ? "Get started" : "Next"}
-        style={{ width: "90%" }}
-      />
+        style={{ width: "90%", marginHorizontal: "auto" }}
+      >
+        {isLastSlide ? "Get started" : "Next"}
+      </Button>
     </SafeAreaView>
   );
 };
@@ -80,7 +83,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingVertical: 20,
+    paddingTop: 30,
+    paddingBottom: 50,
   },
   skipContainer: {
     width: "100%",

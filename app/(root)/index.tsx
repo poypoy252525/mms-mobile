@@ -10,7 +10,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useStore } from "../../stores/store";
 import Map from "../_components/Map";
 import MapBottomSheet from "../_components/MapBottomSheet/MapBottomSheet";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const Home = () => {
   const death = useStore((state) => state.death);
@@ -55,8 +54,6 @@ const Home = () => {
       };
     }, [])
   );
-
-  if (!currentLocation) return <Text>Can not access location</Text>;
 
   return (
     <GestureHandlerRootView>

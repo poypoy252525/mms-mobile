@@ -4,7 +4,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Image } from "expo-image";
 import { router, Tabs } from "expo-router";
 import { View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 
 GoogleSignin.configure({
   webClientId:
@@ -66,19 +66,15 @@ const Layout = () => {
           title: `${GoogleSignin.getCurrentUser()?.user.email}`,
           headerTitleStyle: { fontSize: 18, flexShrink: 1, flexGrow: 0 },
           headerRight: ({}) => (
-            <Button
-              mode="text"
+            <IconButton
+              icon="logout"
+              size={20}
               onPress={async () => {
-                // const { idToken } = await GoogleSignin.getTokens();
-                // await GoogleSignin.clearCachedAccessToken(idToken || "");
-                // await GoogleSignin.revokeAccess();
                 await GoogleSignin.signOut();
                 reset();
-                router.replace("/(auth)/sign-in");
+                router.replace("/sign-in");
               }}
-            >
-              Logout
-            </Button>
+            />
           ),
           headerRightContainerStyle: { flexShrink: 0, flexGrow: 1 },
           tabBarIcon: ({ color, focused, size }) =>

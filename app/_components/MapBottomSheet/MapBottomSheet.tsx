@@ -127,7 +127,7 @@ const MapBottomSheet = () => {
               <List.Item
                 style={{ paddingHorizontal: 24 }}
                 left={() => <List.Icon icon="account" />}
-                title={`${deceased?.owner?.name}`}
+                title={`${deceased?.burial?.owner.name}`}
                 onPress={() => {}}
               />
             </List.Section>
