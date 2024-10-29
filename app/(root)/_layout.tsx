@@ -4,7 +4,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Image } from "expo-image";
 import { router, Tabs } from "expo-router";
 import { View } from "react-native";
-import { Button, IconButton } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 
 GoogleSignin.configure({
   webClientId:
@@ -31,7 +31,7 @@ const Layout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Gravestone GPS",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons

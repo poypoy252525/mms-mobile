@@ -5,7 +5,7 @@ import getDirection from "@/api/route";
 import { Directions } from "@/constants/Entity";
 import { useStore } from "@/stores/store";
 
-const DirectionButton = () => {
+const DirectionButton = ({ callback }: { callback?: () => void }) => {
   const destination = useStore((state) => state.destination);
   const setDirections = useStore((state) => state.setDirections);
   const setCameraCoordinate = useStore((state) => state.setCameraCoordinate);
@@ -24,7 +24,7 @@ const DirectionButton = () => {
           const direction = await getDirection(
             currentLocation,
             destination,
-            "foot"
+            "car"
           );
           setDirections(direction as Directions);
           setCameraCoordinate([
@@ -36,6 +36,7 @@ const DirectionButton = () => {
           throw error;
         } finally {
           setLoading(false);
+          callback && callback();
         }
       }}
     >

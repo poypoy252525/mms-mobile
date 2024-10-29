@@ -1,3 +1,4 @@
+import MapSearchBar from "@/components/MapSearchBar";
 import {
   getCurrentPositionAsync,
   LocationAccuracy,
@@ -5,7 +6,7 @@ import {
 } from "expo-location";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useStore } from "../../stores/store";
 import Map from "../_components/Map";
@@ -63,6 +64,7 @@ const Home = () => {
         </View>
         {death && isVisible && <MapBottomSheet />}
       </View>
+      <MapSearchBar />
     </GestureHandlerRootView>
   );
 };

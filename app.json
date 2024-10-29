@@ -51,7 +51,9 @@
           "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
         }
       ],
-      ["@maplibre/maplibre-react-native"]
+      [
+        "@maplibre/maplibre-react-native"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -59,7 +61,7 @@
     "extra": {
       "googleClientId": "574017815971-i0k2fgfcp2q7v6cb9nivbdrh4sj845fq.apps.googleusercontent.com",
       "eas": {
-        "projectId": "2deaaf5a-d806-4141-a0de-38e0244e20a3"
+        "projectId": "17bab99d-fed9-40eb-ba68-450db4aa5d0b"
       }
     }
   }

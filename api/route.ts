@@ -1,15 +1,16 @@
+import { Directions } from "@/constants/Entity";
 import { Coordinate } from "@/types/coordinates";
 import axios, { AxiosError } from "axios";
 
-const getDirection = async <T>(
+const getDirection = async (
   currentLocation: Coordinate,
   destination: Coordinate,
   profile: "car" | "foot"
-): Promise<T | undefined> => {
+): Promise<Directions | undefined> => {
   console.log(destination, currentLocation);
   if (!destination || !currentLocation) return;
   try {
-    const { data } = await axios.post<T>(
+    const { data } = await axios.post<Directions>(
       `https://graphhopper.com/api/1/route`,
       JSON.stringify({
         profile,

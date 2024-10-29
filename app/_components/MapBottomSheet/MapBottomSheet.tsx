@@ -1,49 +1,27 @@
-import getDirection from "@/api/route";
 import { baseURL } from "@/constants/BaseURL";
-import { Directions } from "@/constants/Entity";
+import { useMapBottomSheet } from "@/hooks/useMapBottomSheet";
 import { useStore } from "@/stores/store";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import {
-  ActivityIndicator,
-  Button,
-  Icon,
-  IconButton,
-  List,
-  Text,
-} from "react-native-paper";
-import DirectionButton from "./DirectionButton";
+import { StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import BottomSheetInfo from "./BottomSheetInfo";
+import DirectionInstructionSheet from "./DirectionInstructionSheet";
 
 const MapBottomSheet = () => {
   const [deceased, setDeceased] = useState<Deceased>();
-  const setSelectedDeceased = useStore((state) => state.setSelectedDeath);
-  const setDestination = useStore((state) => state.setDestination);
-  const setDirection = useStore((state) => state.setDirections);
-  const setCameraCoordinate = useStore((state) => state.setCameraCoordinate);
-  const currentLocation = useStore((state) => state.currentLocation);
+  const direction = useStore((state) => state.directions);
+  const setBottomSheetRef = useMapBottomSheet((state) => state.setRef);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const death = useStore((state) => state.death);
 
   const [loading, setLoading] = useState<boolean>(false);
-
-  const list: { label: string; icon: string }[] = [
-    {
-      label: `Block ${deceased?.burial?.block}`,
-      icon: "toy-brick-marker-outline",
-    },
-    {
-      label: `Lot ${deceased?.burial?.row}`,
-      icon: "map-marker",
-    },
-    {
-      label: `${deceased?.burial?.coordinates.latitude}, ${deceased?.burial?.coordinates.longitude}`,
-      icon: "map-marker-outline",
-    },
-  ];
 
   useEffect(() => {
     const fetchDeceased = async () => {
@@ -70,28 +48,19 @@ const MapBottomSheet = () => {
         setLoading(false);
       }
     };
-
     fetchDeceased();
   }, []);
 
-  const handleClose = () => {
-    setSelectedDeceased(undefined);
-    setDestination(undefined);
-    setDirection(undefined);
-    if (currentLocation)
-      setCameraCoordinate([
-        currentLocation?.longitude,
-        currentLocation?.latitude,
-      ]);
-  };
+  useEffect(() => {
+    setBottomSheetRef(bottomSheetRef);
+  }, [bottomSheetRef]);
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      onClose={handleClose}
       animateOnMount
       index={1}
-      snapPoints={["10.5%", "40%", "90%"]}
+      snapPoints={["10%", "40%", "85%"]}
       style={styles.bottomSheet}
       handleIndicatorStyle={{ backgroundColor: "lightgray" }}
     >
@@ -102,49 +71,13 @@ const MapBottomSheet = () => {
           <ActivityIndicator style={{ marginTop: 24 }} />
         </BottomSheetView>
       ) : (
-        <BottomSheetView style={{ paddingHorizontal: 12, rowGap: 12 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ fontSize: 24, marginLeft: 12 }}>
-              {deceased?.name}
-            </Text>
-            <IconButton
-              icon="close"
-              size={16}
-              onPress={() => bottomSheetRef.current?.close()}
-              mode="contained"
-            />
-          </View>
-          <DirectionButton />
-          <View>
-            <List.Section>
-              <List.Subheader>Owner</List.Subheader>
-              <List.Item
-                style={{ paddingHorizontal: 24 }}
-                left={() => <List.Icon icon="account" />}
-                title={`${deceased?.burial?.owner.name}`}
-                onPress={() => {}}
-              />
-            </List.Section>
-            <List.Section>
-              <List.Subheader>Burial info</List.Subheader>
-              {list.map((item, index) => (
-                <List.Item
-                  key={index}
-                  style={{ paddingHorizontal: 24 }}
-                  left={() => <List.Icon icon={item.icon} />}
-                  title={item.label}
-                  onPress={() => {}}
-                />
-              ))}
-            </List.Section>
-          </View>
-        </BottomSheetView>
+        <BottomSheetScrollView
+          contentContainerStyle={{ flex: 1 }}
+          style={{ flex: 1 }}
+        >
+          {deceased && !direction && <BottomSheetInfo deceased={deceased} />}
+          {direction && <DirectionInstructionSheet />}
+        </BottomSheetScrollView>
       )}
     </BottomSheet>
   );
