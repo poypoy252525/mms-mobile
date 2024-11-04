@@ -7,8 +7,6 @@ import { List } from "react-native-paper";
 const DirectionTabContent = ({ direction }: { direction: Directions }) => {
   const { instructions, distance, time } = direction.paths[0];
 
-  console.log(instructions.length);
-
   return (
     <BottomSheetScrollView showsVerticalScrollIndicator={false}>
       <View

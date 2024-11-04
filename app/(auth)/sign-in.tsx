@@ -51,7 +51,6 @@ const signIn = async (
           photo: user.photo,
           pushToken,
         });
-        console.log(userData);
       } catch (error) {
         // if (error instanceof AxiosError) console.log(error.response?.data);
       }

@@ -7,7 +7,6 @@ const getDirection = async (
   destination: Coordinate,
   profile: "car" | "foot"
 ): Promise<Directions | undefined> => {
-  console.log(destination, currentLocation);
   if (!destination || !currentLocation) return;
   try {
     const { data } = await axios.post<Directions>(

@@ -11,6 +11,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useStore } from "../../stores/store";
 import Map from "../_components/Map";
 import MapBottomSheet from "../_components/MapBottomSheet/MapBottomSheet";
+import { isOutsideOfArea } from "@/functions/functions";
+import { staticLocation } from "@/constants/EntryLocation";
 
 const Home = () => {
   const death = useStore((state) => state.death);
@@ -29,7 +31,8 @@ const Home = () => {
           accuracy: LocationAccuracy.Highest,
         });
         setCurrentLocation(currentLocation.coords);
-        console.log(currentLocation.coords);
+        const isOutside = await isOutsideOfArea();
+        if (isOutside) setCurrentLocation(staticLocation);
       }
     })();
   }, []);

@@ -14,6 +14,7 @@ const Camera = () => {
       pitch={60}
       minZoomLevel={17}
       maxZoomLevel={20}
+      maxBounds={{ ne: [121.147828, 14.733714], sw: [121.145216, 14.73209] }}
       // followUserLocation
       // followHeading={heading}
       heading={direction?.paths[0].instructions[0].heading}
