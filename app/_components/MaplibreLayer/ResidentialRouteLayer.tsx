@@ -1,14 +1,14 @@
-import MapLibreGL from "@maplibre/maplibre-react-native";
+import Maplibre from "@maplibre/maplibre-react-native";
 import React from "react";
 import residentialRoutes from "@/geojson/residential_routes.json";
 
 const ResidentialRouteLayer = () => {
   return (
-    <MapLibreGL.ShapeSource
+    <Maplibre.ShapeSource
       id="residentialRouteSource"
       shape={residentialRoutes as GeoJSON.FeatureCollection}
     >
-      <MapLibreGL.LineLayer
+      <Maplibre.LineLayer
         id="residentialRouteStrokeLayer"
         style={{
           lineColor: "#c3c3c3",
@@ -17,7 +17,7 @@ const ResidentialRouteLayer = () => {
           lineJoin: "round",
         }}
       />
-      <MapLibreGL.LineLayer
+      <Maplibre.LineLayer
         id="residentialRouteLayer"
         style={{
           lineColor: "white",
@@ -26,7 +26,17 @@ const ResidentialRouteLayer = () => {
           lineJoin: "round",
         }}
       />
-    </MapLibreGL.ShapeSource>
+      {/* <Maplibre.SymbolLayer
+        id="routeSymbolLayer"
+        style={{
+          textField: ["get", "label"],
+          textSize: 10,
+          textColor: "white",
+          textHaloColor: "black",
+          textHaloWidth: 1,
+        }}
+      /> */}
+    </Maplibre.ShapeSource>
   );
 };
 

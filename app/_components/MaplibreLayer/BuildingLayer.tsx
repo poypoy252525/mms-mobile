@@ -20,6 +20,16 @@ const BuildingLayer = () => {
         id="buildingLineLayer"
         style={{ lineColor: "lightgray", lineWidth: 1, lineOpacity: 1 }}
       />
+      {/* <Maplibre.SymbolLayer
+        id="buildingSymbolLayer"
+        style={{
+          textField: ["get", "label"],
+          textSize: 10,
+          textColor: "white",
+          textHaloColor: "black",
+          textHaloWidth: 1,
+        }}
+      /> */}
     </Maplibre.ShapeSource>
   );
 };

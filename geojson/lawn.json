@@ -60,6 +60,39 @@
         ],
         "type": "Polygon"
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Lawn"
+      },
+      "geometry": {
+        "coordinates": [121.1463476525509, 14.732985382439551],
+        "type": "Point"
+      },
+      "id": 3
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Lawn, EXTENSION"
+      },
+      "geometry": {
+        "coordinates": [121.14765240309555, 14.733234876889469],
+        "type": "Point"
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Lawn, EXTENSION"
+      },
+      "geometry": {
+        "coordinates": [121.14758441370822, 14.732895899527094],
+        "type": "Point"
+      },
+      "id": 5
     }
   ]
 }

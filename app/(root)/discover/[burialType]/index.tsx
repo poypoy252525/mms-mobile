@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, ScrollView, View } from "react-native";
 import { ActivityIndicator, List, Text, Searchbar } from "react-native-paper";
 import { NativeStackNavigationOptions } from "react-native-screens/lib/typescript/native-stack/types";
+import OptionsBottomSheet from "./OptionsBottomSheet";
 
 const getBurialTypeName = (burialType: string): string => {
   let name = "";
@@ -82,6 +83,8 @@ const index = () => {
     }
   };
 
+  const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       {isLoading ? (
@@ -116,10 +119,12 @@ const index = () => {
               key={item.id}
               title={item.name}
               onPress={() => handlePress(item)}
+              onLongPress={() => setBottomSheetIndex(0)}
             />
           )}
         />
       )}
+      <OptionsBottomSheet index={bottomSheetIndex} />
     </View>
   );
 };

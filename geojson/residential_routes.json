@@ -164,6 +164,138 @@
         ],
         "type": "LineString"
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 11"
+      },
+      "geometry": {
+        "coordinates": [121.14639456429006, 14.732476434642791],
+        "type": "Point"
+      },
+      "id": 9
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 7"
+      },
+      "geometry": {
+        "coordinates": [121.14665201804542, 14.73294217497451],
+        "type": "Point"
+      },
+      "id": 10
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 9"
+      },
+      "geometry": {
+        "coordinates": [121.14679684205532, 14.73260308733397],
+        "type": "Point"
+      },
+      "id": 11
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 8"
+      },
+      "geometry": {
+        "coordinates": [121.1470296458699, 14.732772930766828],
+        "type": "Point"
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 6"
+      },
+      "geometry": {
+        "coordinates": [121.14641557707012, 14.733263204705324],
+        "type": "Point"
+      },
+      "id": 13
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 5"
+      },
+      "geometry": {
+        "coordinates": [121.14730024252964, 14.733293320014397],
+        "type": "Point"
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 4"
+      },
+      "geometry": {
+        "coordinates": [121.14703320086693, 14.73335345809896],
+        "type": "Point"
+      },
+      "id": 15
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 3"
+      },
+      "geometry": {
+        "coordinates": [121.14672661464436, 14.73339343604826],
+        "type": "Point"
+      },
+      "id": 16
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 1"
+      },
+      "geometry": {
+        "coordinates": [121.14606763458528, 14.73310488709268],
+        "type": "Point"
+      },
+      "id": 17
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Road 10"
+      },
+      "geometry": {
+        "coordinates": [121.14628134880485, 14.732679647967771],
+        "type": "Point"
+      },
+      "id": 18
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "PARKS"
+      },
+      "geometry": {
+        "coordinates": [121.14606149662262, 14.732366467796126],
+        "type": "Point"
+      },
+      "id": 19
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Gate"
+      },
+      "geometry": {
+        "coordinates": [121.14587279868323, 14.732209325397108],
+        "type": "Point"
+      },
+      "id": 20
     }
   ]
 }

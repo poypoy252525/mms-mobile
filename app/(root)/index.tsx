@@ -60,7 +60,7 @@ const Home = () => {
   );
 
   return (
-    <GestureHandlerRootView>
+    <>
       <View style={{ flex: 1 }}>
         <View style={{ display: isVisible ? "flex" : "none", flex: 1 }}>
           <Map />
@@ -68,7 +68,7 @@ const Home = () => {
         {death && isVisible && <MapBottomSheet />}
       </View>
       <MapSearchBar />
-    </GestureHandlerRootView>
+    </>
   );
 };
 

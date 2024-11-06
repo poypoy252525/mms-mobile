@@ -20,6 +20,16 @@ const ApartmentLayer = () => {
         id="apartmentLineLayer"
         style={{ lineWidth: 1, lineColor: "lightgray" }}
       />
+      {/* <Maplibre.SymbolLayer
+        id="apartmentSymbolLayer"
+        style={{
+          textField: ["get", "label"],
+          textSize: 10,
+          textColor: "white",
+          textHaloColor: "black",
+          textHaloWidth: 1,
+        }}
+      /> */}
     </Maplibre.ShapeSource>
   );
 };

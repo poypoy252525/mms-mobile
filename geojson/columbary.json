@@ -4,7 +4,8 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "columbary"
+        "name": "columbary",
+        "type": "Columbary"
       },
       "geometry": {
         "coordinates": [
@@ -18,7 +19,18 @@
         ],
         "type": "Polygon"
       },
-      "id": 55
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Columbary"
+      },
+      "geometry": {
+        "coordinates": [121.14701935657615, 14.73260963477918],
+        "type": "Point"
+      },
+      "id": 1
     }
   ]
 }

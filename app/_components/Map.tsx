@@ -1,28 +1,29 @@
 import Marker from "@/assets/images/marker-pin.png";
-import MapLibreGL from "@maplibre/maplibre-react-native";
-import React, { useRef, useState } from "react";
+import Maplibre from "@maplibre/maplibre-react-native";
+import React, { useRef } from "react";
 import { StyleSheet } from "react-native";
 import { useStore } from "../../stores/store";
 import ApartmentLayer from "./MaplibreLayer/ApartmentLayer";
 import BuildingLayer from "./MaplibreLayer/BuildingLayer";
+import Camera from "./MaplibreLayer/Camera";
 import ColumbaryLayer from "./MaplibreLayer/ColumbaryLayer";
 import DirectionLayer from "./MaplibreLayer/DirectionLayer";
 import LawnLayer from "./MaplibreLayer/LawnLayer";
 import ResidentialRouteLayer from "./MaplibreLayer/ResidentialRouteLayer";
-import Camera from "./MaplibreLayer/Camera";
 import UserLocation from "./MaplibreLayer/UserLocation";
+import SymbolsLayer from "./MaplibreLayer/SymbolsLayer";
 
-MapLibreGL.setAccessToken(null);
+Maplibre.setAccessToken(null);
 
 // const apiKey = "7d1e7cd9-770c-4ae4-b4f9-895c8171210e";
 const styleUrl = `https://api.maptiler.com/maps/608de5e8-9e8f-4899-b8ed-b319ac0ce0a4/style.json?key=AWxYqeit04pvjyks83vM`;
 
 const Map = () => {
   const destination = useStore((state) => state.destination);
-  const mapRef = useRef<MapLibreGL.MapViewRef>(null);
+  const mapRef = useRef<Maplibre.MapViewRef>(null);
 
   return (
-    <MapLibreGL.MapView
+    <Maplibre.MapView
       ref={mapRef}
       style={styles.map}
       pitchEnabled={true}
@@ -41,7 +42,7 @@ const Map = () => {
       {/* <WallLayer /> */}
 
       {destination && (
-        <MapLibreGL.ShapeSource
+        <Maplibre.ShapeSource
           id="pinSource"
           shape={{
             type: "FeatureCollection",
@@ -60,7 +61,7 @@ const Map = () => {
           }}
           onPress={() => console.log("marker pressed")}
         >
-          <MapLibreGL.SymbolLayer
+          <Maplibre.SymbolLayer
             id="markerSymbol"
             style={{
               iconImage: Marker, // You can set a custom icon
@@ -69,10 +70,11 @@ const Map = () => {
               iconAllowOverlap: true,
             }}
           />
-        </MapLibreGL.ShapeSource>
+        </Maplibre.ShapeSource>
       )}
+      <SymbolsLayer />
       <UserLocation />
-    </MapLibreGL.MapView>
+    </Maplibre.MapView>
   );
 };
 

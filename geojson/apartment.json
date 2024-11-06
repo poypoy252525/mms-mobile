@@ -18,6 +18,17 @@
         ],
         "type": "Polygon"
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "Apartment"
+      },
+      "geometry": {
+        "coordinates": [121.14662667147036, 14.732367393823012],
+        "type": "Point"
+      },
+      "id": 1
     }
   ]
 }

@@ -20,6 +20,16 @@ const ColumbaryLayer = () => {
         id="columbaryLineLayer"
         style={{ lineWidth: 1, lineColor: "black", lineOpacity: 0.2 }}
       />
+      {/* <Maplibre.SymbolLayer
+        id="columbarySymbolLayer"
+        style={{
+          textField: ["get", "label"],
+          textSize: 10,
+          textColor: "white",
+          textHaloColor: "black",
+          textHaloWidth: 1,
+        }}
+      /> */}
     </Maplibre.ShapeSource>
   );
 };

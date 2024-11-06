@@ -22,6 +22,16 @@ const LawnLayer = () => {
           lineOpacity: 0.2,
         }}
       />
+      {/* <Maplibre.SymbolLayer
+        id="lawnSymbolLayer"
+        style={{
+          textField: ["get", "label"],
+          textSize: 10,
+          textColor: "white",
+          textHaloColor: "black",
+          textHaloWidth: 1,
+        }}
+      /> */}
     </Maplibre.ShapeSource>
   );
 };

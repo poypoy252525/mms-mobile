@@ -59,6 +59,7 @@ const MapBottomSheet = () => {
     <BottomSheet
       ref={bottomSheetRef}
       animateOnMount
+      enableDynamicSizing={false}
       index={1}
       snapPoints={["10%", "40%", "85%"]}
       style={styles.bottomSheet}
