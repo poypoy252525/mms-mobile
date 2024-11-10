@@ -35,6 +35,7 @@ const index = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const setSelectedDeceased = useStore((state) => state.setSelectedDeath);
   const setDestination = useStore((state) => state.setDestination);
+  const [longPressDeceased, setLongPressDeceased] = useState<Deceased>();
 
   useEffect(() => {
     (async () => {
@@ -119,12 +120,19 @@ const index = () => {
               key={item.id}
               title={item.name}
               onPress={() => handlePress(item)}
-              onLongPress={() => setBottomSheetIndex(0)}
+              onLongPress={() => {
+                setLongPressDeceased(item);
+                setBottomSheetIndex(0);
+              }}
             />
           )}
         />
       )}
-      <OptionsBottomSheet index={bottomSheetIndex} />
+      <OptionsBottomSheet
+        index={bottomSheetIndex}
+        onIndexChange={setBottomSheetIndex}
+        deceased={longPressDeceased}
+      />
     </View>
   );
 };

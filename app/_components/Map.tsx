@@ -31,6 +31,7 @@ const Map = () => {
       compassEnabled
       compassViewPosition={2}
       styleURL={styleUrl}
+      attributionEnabled={false}
     >
       <Camera />
       <ResidentialRouteLayer />
@@ -72,8 +73,8 @@ const Map = () => {
           />
         </Maplibre.ShapeSource>
       )}
-      <SymbolsLayer />
       <UserLocation />
+      <SymbolsLayer />
     </Maplibre.MapView>
   );
 };

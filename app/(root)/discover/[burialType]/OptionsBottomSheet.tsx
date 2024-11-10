@@ -1,16 +1,46 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { baseURL } from "@/constants/BaseURL";
 import BottomSheet, {
   BottomSheetBackdrop,
-  BottomSheetModal,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import axios from "axios";
+import React, { useRef } from "react";
 import { List } from "react-native-paper";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-const OptionsBottomSheet = ({ index }: { index: number }) => {
+interface Props {
+  index: number;
+  onIndexChange: (index: number) => void;
+  deceased?: Deceased;
+}
+
+const OptionsBottomSheet = ({ index, onIndexChange, deceased }: Props) => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const handleAddToList = async () => {
+    if (!deceased) return;
+    try {
+      await GoogleSignin.signInSilently();
+      const { idToken, user } = GoogleSignin.getCurrentUser()!;
+      const { data } = await axios.post(
+        `${baseURL}/api/users/${user.id}/deceased`,
+        { deceasedId: deceased.id },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+
+      bottomSheetRef.current?.close();
+    } catch (error) {
+      console.error("Error adding to list: ", error);
+    }
+  };
+
   return (
     <BottomSheet
+      ref={bottomSheetRef}
       index={index}
       enablePanDownToClose
       backdropComponent={(props) => (
@@ -20,11 +50,13 @@ const OptionsBottomSheet = ({ index }: { index: number }) => {
           disappearsOnIndex={-1}
         />
       )}
+      onChange={(index) => onIndexChange(index)}
     >
       <BottomSheetScrollView>
         <List.Item
           left={(props) => <List.Icon {...props} icon="plus" />}
           title="Add to list"
+          onPress={() => handleAddToList()}
         />
       </BottomSheetScrollView>
     </BottomSheet>
