@@ -11,7 +11,7 @@ import {
   isSuccessResponse,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -41,18 +41,26 @@ const signIn = async (
     setLoading(true);
     const response = await GoogleSignin.signIn();
     if (isSuccessResponse(response)) {
-      const { user } = response.data;
+      const { user, idToken } = response.data;
       try {
-        const userData = await axios.post(`${baseURL}/api/users`, {
-          googleId: user.id,
-          email: user.email,
-          firstName: user.givenName,
-          lastName: user.familyName,
-          photo: user.photo,
-          pushToken,
-        });
+        const userData = await axios.post(
+          `${baseURL}/api/users`,
+          {
+            googleId: user.id,
+            email: user.email,
+            firstName: user.givenName,
+            lastName: user.familyName,
+            photo: user.photo,
+            pushToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
       } catch (error) {
-        // if (error instanceof AxiosError) console.log(error.response?.data);
+        if (error instanceof AxiosError) console.log(error.response?.data);
       }
 
       router.replace("/(root)");

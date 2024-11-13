@@ -6,6 +6,7 @@ export const fetchDeceased = async (
   burialType?: BurialType
 ): Promise<(Deceased & { owner: Owner; burial: Burial })[]> => {
   try {
+    await GoogleSignin.signInSilently();
     const { idToken } = await GoogleSignin.getTokens();
     const { data } = await axios.get<
       (Deceased & { owner: Owner; burial: Burial })[]

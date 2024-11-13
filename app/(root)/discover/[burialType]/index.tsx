@@ -3,7 +3,13 @@ import { useStore } from "@/stores/store";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, ScrollView, View } from "react-native";
-import { ActivityIndicator, List, Text, Searchbar } from "react-native-paper";
+import {
+  ActivityIndicator,
+  List,
+  Text,
+  Searchbar,
+  Appbar,
+} from "react-native-paper";
 import { NativeStackNavigationOptions } from "react-native-screens/lib/typescript/native-stack/types";
 import OptionsBottomSheet from "./OptionsBottomSheet";
 

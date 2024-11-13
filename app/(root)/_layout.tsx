@@ -62,7 +62,7 @@ const Layout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          headerShown: true,
+          headerShown: false,
           title: `${GoogleSignin.getCurrentUser()?.user.email}`,
           headerTitleStyle: { fontSize: 18, flexShrink: 1, flexGrow: 0 },
           headerRight: ({}) => (
