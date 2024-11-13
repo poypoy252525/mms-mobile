@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Redirect, router } from "expo-router";
 import React, { useState } from "react";
 
-import ImageCover from "@/assets/images/image.png";
+import ImageCover from "@/assets/images/image.jpg";
 import { baseURL } from "@/constants/BaseURL";
 import {
   GoogleSignin,
